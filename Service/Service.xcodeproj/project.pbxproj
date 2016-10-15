@@ -12,12 +12,14 @@
 		07A12DBC1DB255B50041E744 /* ServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A12DBB1DB255B50041E744 /* ServiceTests.swift */; };
 		07A12DCA1DB258590041E744 /* StreamSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A12DC91DB258590041E744 /* StreamSessionManager.swift */; };
 		07A12DCD1DB2589E0041E744 /* NewsDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 07A12DCB1DB2589E0041E744 /* NewsDataModel.xcdatamodeld */; };
-		07A12DD01DB2593E0041E744 /* TwitterAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A12DCF1DB2593E0041E744 /* TwitterAPI.swift */; };
+		07A12DD01DB2593E0041E744 /* TwitterStreamAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A12DCF1DB2593E0041E744 /* TwitterStreamAPI.swift */; };
 		07A12DD21DB259500041E744 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A12DD11DB259500041E744 /* Service.swift */; };
 		07A12DD71DB259AD0041E744 /* StreamSessionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A12DD61DB259AD0041E744 /* StreamSessionManagerTests.swift */; };
 		07A12DDB1DB259F40041E744 /* TwitterAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A12DDA1DB259F40041E744 /* TwitterAPITests.swift */; };
 		07A12DDD1DB25A840041E744 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A12DDC1DB25A840041E744 /* DataManager.swift */; };
 		07A12DDF1DB25A970041E744 /* DataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A12DDE1DB25A970041E744 /* DataManagerTests.swift */; };
+		07A12DE21DB298810041E744 /* TwitterStreamEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A12DE11DB298810041E744 /* TwitterStreamEndpoint.swift */; };
+		07A12DE41DB2A4B80041E744 /* TwitterResponseDeserializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A12DE31DB2A4B80041E744 /* TwitterResponseDeserializer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,12 +41,14 @@
 		07A12DBD1DB255B50041E744 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		07A12DC91DB258590041E744 /* StreamSessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamSessionManager.swift; sourceTree = "<group>"; };
 		07A12DCC1DB2589E0041E744 /* NewsDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NewsDataModel.xcdatamodel; sourceTree = "<group>"; };
-		07A12DCF1DB2593E0041E744 /* TwitterAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterAPI.swift; sourceTree = "<group>"; };
+		07A12DCF1DB2593E0041E744 /* TwitterStreamAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterStreamAPI.swift; sourceTree = "<group>"; };
 		07A12DD11DB259500041E744 /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		07A12DD61DB259AD0041E744 /* StreamSessionManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamSessionManagerTests.swift; sourceTree = "<group>"; };
 		07A12DDA1DB259F40041E744 /* TwitterAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterAPITests.swift; sourceTree = "<group>"; };
 		07A12DDC1DB25A840041E744 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		07A12DDE1DB25A970041E744 /* DataManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManagerTests.swift; sourceTree = "<group>"; };
+		07A12DE11DB298810041E744 /* TwitterStreamEndpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterStreamEndpoint.swift; sourceTree = "<group>"; };
+		07A12DE31DB2A4B80041E744 /* TwitterResponseDeserializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterResponseDeserializer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,7 +132,9 @@
 		07A12DCE1DB259090041E744 /* APIs */ = {
 			isa = PBXGroup;
 			children = (
-				07A12DCF1DB2593E0041E744 /* TwitterAPI.swift */,
+				07A12DE11DB298810041E744 /* TwitterStreamEndpoint.swift */,
+				07A12DE31DB2A4B80041E744 /* TwitterResponseDeserializer.swift */,
+				07A12DCF1DB2593E0041E744 /* TwitterStreamAPI.swift */,
 			);
 			path = APIs;
 			sourceTree = "<group>";
@@ -282,10 +288,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07A12DE41DB2A4B80041E744 /* TwitterResponseDeserializer.swift in Sources */,
 				07A12DCD1DB2589E0041E744 /* NewsDataModel.xcdatamodeld in Sources */,
+				07A12DE21DB298810041E744 /* TwitterStreamEndpoint.swift in Sources */,
 				07A12DDD1DB25A840041E744 /* DataManager.swift in Sources */,
 				07A12DD21DB259500041E744 /* Service.swift in Sources */,
-				07A12DD01DB2593E0041E744 /* TwitterAPI.swift in Sources */,
+				07A12DD01DB2593E0041E744 /* TwitterStreamAPI.swift in Sources */,
 				07A12DCA1DB258590041E744 /* StreamSessionManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

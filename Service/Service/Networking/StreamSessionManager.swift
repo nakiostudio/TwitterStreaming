@@ -15,9 +15,6 @@ class StreamSessionManager: NSObject, NSURLSessionDataDelegate {
     /// Closure alias
     typealias ResponseClosure = (NSData?, NSError?) -> Void
     
-    /// Closure alias
-    typealias ConnectionClosedClosure = () -> Void
-    
     /// Queue where the session data delegate methods are going to be dispatched
     unowned(unsafe) let dispatchQueue: dispatch_queue_t
     
@@ -30,19 +27,10 @@ class StreamSessionManager: NSObject, NSURLSessionDataDelegate {
     }()
     
     /// Data task running
-    private(set) var currentTask: NSURLSessionDataTask? {
-        didSet {
-            if self.currentTask == nil {
-                self.connectionClosedClosure?()
-            }
-        }
-    }
+    private(set) var currentTask: NSURLSessionDataTask?
     
     /// Closure to be called with the data/errors to notify upon server response
     private var responseClosure: ResponseClosure?
-    
-    /// Closure to be called when the connection to the stream endpoint is closed
-    private var connectionClosedClosure: ConnectionClosedClosure?
     
     /**
      Designated initializer
@@ -63,9 +51,8 @@ class StreamSessionManager: NSObject, NSURLSessionDataDelegate {
      - parameter connectionClosedClosure: Closure called when the connection to the
      stream endpoint is closed
      */
-    func connect(withRequest request: NSURLRequest, responseClosure: ResponseClosure?, connectionClosedClosure: ConnectionClosedClosure?) {
+    func connect(withRequest request: NSURLRequest, responseClosure: ResponseClosure?) {
         self.responseClosure = responseClosure
-        self.connectionClosedClosure = connectionClosedClosure
         self.currentTask = self.session.dataTaskWithRequest(request)
         self.currentTask?.resume()
     }

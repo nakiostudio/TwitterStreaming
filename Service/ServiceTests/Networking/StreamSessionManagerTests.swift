@@ -39,14 +39,12 @@ class StreamSessionManagerTests: XCTestCase {
             if counter >= 2 {
                 expectation.fulfill()
             }
-        }, connectionClosedClosure: {
-            XCTFail()
         })
         
         self.waitForExpectationsWithTimeout(5.0, handler: nil)
     }
 
-    func testThatConnectionClosedClosureIsTriggeredWhenTaskIsInvalidatedAndPropertyIsUnSet() {
+    func testThatCloseErrorIsTriggeredWhenTaskIsInvalidatedAndPropertyIsUnSet() {
         // given
         let expectation = self.expectationWithDescription("stream manager")
         let manager = StreamSessionManager(dispatchQueue: self.streamQueue)
@@ -54,9 +52,12 @@ class StreamSessionManagerTests: XCTestCase {
         request.HTTPMethod = "GET"
         
         // when
-        manager.connect(withRequest: request, responseClosure: nil, connectionClosedClosure: {
-            XCTAssertNil(manager.currentTask)
-            expectation.fulfill()
+        manager.connect(withRequest: request, responseClosure: { (data, error) in
+            if let error = error {
+                XCTAssertTrue(error.localizedDescription == "cancelled")
+                XCTAssertNil(manager.currentTask)
+                expectation.fulfill()
+            }
         })
         
         let delay = 1.0 * Double(NSEC_PER_SEC)
@@ -68,7 +69,7 @@ class StreamSessionManagerTests: XCTestCase {
         self.waitForExpectationsWithTimeout(5.0, handler: nil)
     }
     
-    func testThatConnectionClosedClosureIsTriggeredWhenSessionBecomesInvalid() {
+    func testThatCloseErrorIsTriggeredWhenSessionBecomesInvalid() {
         // given
         let expectation = self.expectationWithDescription("stream manager")
         let manager = StreamSessionManager(dispatchQueue: self.streamQueue)
@@ -76,9 +77,12 @@ class StreamSessionManagerTests: XCTestCase {
         request.HTTPMethod = "GET"
         
         // when
-        manager.connect(withRequest: request, responseClosure: nil, connectionClosedClosure: {
-            XCTAssertNil(manager.currentTask)
-            expectation.fulfill()
+        manager.connect(withRequest: request, responseClosure: { (data, error) in
+            if let error = error {
+                XCTAssertTrue(error.localizedDescription == "cancelled")
+                XCTAssertNil(manager.currentTask)
+                expectation.fulfill()
+            }
         })
         
         let delay = 1.0 * Double(NSEC_PER_SEC)
@@ -98,8 +102,12 @@ class StreamSessionManagerTests: XCTestCase {
         request.HTTPMethod = "GET"
         
         // when
-        manager.connect(withRequest: request, responseClosure: nil, connectionClosedClosure: {
-            expectation.fulfill()
+        manager.connect(withRequest: request, responseClosure: { (data, error) in
+            if let error = error {
+                XCTAssertTrue(error.localizedDescription == "cancelled")
+                XCTAssertNotNil(error)
+                expectation.fulfill()
+            }
         })
         manager.disconnect()
         
