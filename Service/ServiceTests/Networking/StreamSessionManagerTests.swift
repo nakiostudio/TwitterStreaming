@@ -6,8 +6,8 @@
 import XCTest
 @testable import Service
 
-class ServiceTests: XCTestCase {
-    
+class StreamSessionManagerTests: XCTestCase {
+
     override func setUp() {
         super.setUp()
     }
@@ -15,9 +15,9 @@ class ServiceTests: XCTestCase {
     override func tearDown() {
         super.tearDown()
     }
-    
+
     func testExample() {
         
     }
-    
+
 }

@@ -82,10 +82,8 @@
 				07A12D7F1DB2551C0041E744 /* AppDelegate.swift */,
 				07A12D811DB2551C0041E744 /* ViewController.swift */,
 				07A12D831DB2551C0041E744 /* Main.storyboard */,
-				07A12D891DB2551C0041E744 /* Assets.xcassets */,
 				07A12D8B1DB2551C0041E744 /* LaunchScreen.storyboard */,
-				07A12D8E1DB2551C0041E744 /* Info.plist */,
-				07A12D861DB2551C0041E744 /* News.xcdatamodeld */,
+				07A12DD41DB259740041E744 /* Resources */,
 			);
 			path = News;
 			sourceTree = "<group>";
@@ -97,6 +95,16 @@
 				07A12D991DB2551C0041E744 /* Info.plist */,
 			);
 			path = NewsTests;
+			sourceTree = "<group>";
+		};
+		07A12DD41DB259740041E744 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				07A12D891DB2551C0041E744 /* Assets.xcassets */,
+				07A12D8E1DB2551C0041E744 /* Info.plist */,
+				07A12D861DB2551C0041E744 /* News.xcdatamodeld */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
