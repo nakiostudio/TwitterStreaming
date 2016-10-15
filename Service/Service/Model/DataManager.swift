@@ -4,3 +4,12 @@
 //
 
 import Foundation
+
+/**
+ 
+ */
+public class DataManager {
+    
+    
+    
+}

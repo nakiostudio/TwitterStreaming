@@ -9,10 +9,10 @@ import Social
 /**
  
  */
-enum TwitterStreamEndpoint {
+enum StreamEndpoint {
     
     ///
-    case Statuses(track: String)
+    case Statuses
     
     ///
     var path: String {
@@ -26,15 +26,7 @@ enum TwitterStreamEndpoint {
     var method: SLRequestMethod {
         switch self {
         case .Statuses:
-            return SLRequestMethod.GET
-        }
-    }
-    
-    ///
-    var parameters: [NSObject: AnyObject] {
-        switch self {
-        case let .Statuses(track):
-            return ["track": track]
+            return .POST
         }
     }
     
