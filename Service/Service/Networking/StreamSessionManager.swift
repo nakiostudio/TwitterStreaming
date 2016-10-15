@@ -100,8 +100,8 @@ extension StreamSessionManager {
     }
     
     func URLSession(session: NSURLSession, didBecomeInvalidWithError error: NSError?) {
-        self.currentTask = nil
-        self.responseClosure?(nil, error)
+        // No need to handle this as URLSession(session: task: didCompleteWithError) 
+        // will be triggered
     }
     
     func URLSession(session: NSURLSession, task: NSURLSessionTask, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
