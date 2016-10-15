@@ -1,0 +1,12 @@
+---
+environment: production
+address: 127.0.0.1
+port: 9001
+pid: Sinatra/sinatra.pid
+rackup: Sinatra/config.ru
+log: Sinatra/server.log
+max_conns: 1024
+timeout: 30
+max_persistent_conns: 512
+daemonize: true
+
