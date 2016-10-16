@@ -35,8 +35,9 @@ public class Service {
     ///
     public init(baseURL: NSURL) {
         self.baseURL = baseURL
-        self.dataManager = DataManager()
         self.streamSessionManager = StreamSessionManager(dispatchQueue: Service.mappingQueue)
+        self.dataManager = DataManager()
+        self.dataManager.loadStack()
     }
     
 }
