@@ -60,12 +60,6 @@ public class StreamAPI {
  
      */
     public func statuses(forKeywords keywords: [String], completion: CompletionClosure?) -> NSFetchedResultsController? {
-        guard let twitterAccount = self.twitterAccount else {
-            completion?(false, nil)
-            return nil
-        }
-        
-        //
         let parameters = ["track": keywords.joinWithSeparator(","), "delimited": "length"]
         let responseDeserializer = ResponseDeserializer(dataManager: self.dataManager, endpoint: .Statuses)
         let signedRequest = StreamAPI.signedRequest(withBaseURL: self.baseURL, endpoint: .Statuses, parameters: parameters, account: twitterAccount)
@@ -87,7 +81,7 @@ public class StreamAPI {
     /**
      
      */
-    private static func signedRequest(withBaseURL baseURL: NSURL, endpoint: StreamEndpoint, parameters: [NSObject: AnyObject], account: ACAccount) -> NSURLRequest {
+    private static func signedRequest(withBaseURL baseURL: NSURL, endpoint: StreamEndpoint, parameters: [NSObject: AnyObject], account: ACAccount?) -> NSURLRequest {
         let url = baseURL.URLByAppendingPathComponent(endpoint.path)
         let request = SLRequest(forServiceType: SLServiceTypeTwitter, requestMethod: endpoint.method, URL: url, parameters: parameters)
         request.account = account

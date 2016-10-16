@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0727B3491DB3890C0099F072 /* Service.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0727B3481DB3890C0099F072 /* Service.framework */; };
+		0727B34A1DB3890C0099F072 /* Service.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0727B3481DB3890C0099F072 /* Service.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		07A12D801DB2551C0041E744 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A12D7F1DB2551C0041E744 /* AppDelegate.swift */; };
 		07A12D821DB2551C0041E744 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A12D811DB2551C0041E744 /* ViewController.swift */; };
 		07A12D851DB2551C0041E744 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07A12D831DB2551C0041E744 /* Main.storyboard */; };
@@ -26,7 +28,22 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		0727B34B1DB3890C0099F072 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				0727B34A1DB3890C0099F072 /* Service.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		0727B3481DB3890C0099F072 /* Service.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Service.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		07A12D7C1DB2551C0041E744 /* News.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = News.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		07A12D7F1DB2551C0041E744 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		07A12D811DB2551C0041E744 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -45,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0727B3491DB3890C0099F072 /* Service.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,6 +79,7 @@
 		07A12D731DB2551C0041E744 = {
 			isa = PBXGroup;
 			children = (
+				0727B3481DB3890C0099F072 /* Service.framework */,
 				07A12D7E1DB2551C0041E744 /* News */,
 				07A12D961DB2551C0041E744 /* NewsTests */,
 				07A12D7D1DB2551C0041E744 /* Products */,
@@ -117,6 +136,7 @@
 				07A12D781DB2551C0041E744 /* Sources */,
 				07A12D791DB2551C0041E744 /* Frameworks */,
 				07A12D7A1DB2551C0041E744 /* Resources */,
+				0727B34B1DB3890C0099F072 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

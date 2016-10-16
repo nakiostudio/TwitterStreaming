@@ -14,17 +14,17 @@ class ResponseDeserializer {
     private static let delimiter = "\r\n"
     
     ///
+    private weak var dataManager: DataManager?
+    
+    ///
+    private let endpoint: StreamEndpoint
+    
+    ///
     private var message = ""
     
     ///
     private var length: Int?
     
-    ///
-    private weak var dataManager: DataManager?
-    
-    ///
-    private let endpoint: StreamEndpoint
-   
     /**
      
      */
@@ -32,6 +32,8 @@ class ResponseDeserializer {
         self.dataManager = dataManager
         self.endpoint = endpoint
     }
+    
+    // MARK: - Public methods
     
     /**
      
