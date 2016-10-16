@@ -1,5 +1,5 @@
 //
-//  Created by Carlos Vidal Pallin on 15/10/2016.
+//  Created by Carlos Vidal Pallin on 16/10/2016.
 //  Copyright © 2016 nakioStudio. All rights reserved.
 //
 
@@ -9,26 +9,26 @@ import Social
 import Accounts
 
 /**
- 
+ Tools to authenticate the user and establish a stream connection
  */
 public class StreamAPI {
     
-    ///
+    /// Alias of the closure called to notify results
     public typealias CompletionClosure = (Bool, NSError?) -> Void
     
-    ///
+    /// URL the endpoint paths will be append to
     public let baseURL: NSURL
     
-    ///
+    /// Database utils
     public let dataManager: DataManager
     
-    ///
+    /// Class managing stream sessions
     let streamSessionManager: StreamSessionManager
     
-    ///
+    /// If the user gets authenticated the account is persisted here in order to
+    /// sign requests
     private(set) var twitterAccount: ACAccount?
     
-    ///
     init(baseURL: NSURL, dataManager: DataManager, streamSessionManager: StreamSessionManager) {
         self.baseURL = baseURL
         self.dataManager = dataManager
@@ -38,7 +38,9 @@ public class StreamAPI {
     // MARK: - Public methods
     
     /**
- 
+     Authenticates the user using the social accounts existing in the current
+     device
+     - parameter completion: Closure called to notify the result
      */
     public func authenticate(completion: CompletionClosure?) {
         let store = ACAccountStore()
@@ -61,7 +63,12 @@ public class StreamAPI {
     }
     
     /**
- 
+     Opens a stream of statuses filtered by the given keyword
+     - parameter keywords: Keywords the statuses will be filtered with
+     - parameter completion: Closure called to notify error or whether the stream
+     has been closes
+     - returns A `NSFetchedResultsController` to fetch the statuses stored in database
+     upon server response
      */
     public func statuses(forKeywords keywords: [String], completion: CompletionClosure?) -> NSFetchedResultsController? {
         let parameters = ["track": keywords.joinWithSeparator(","), "delimited": "length"]
@@ -78,7 +85,7 @@ public class StreamAPI {
             responseDeserializer.process(data: data)
         }
     
-        //
+        // `NSFetchedResultsController` to fetch the received statuses
         let fetchedResultsController = Status.fetchedResultsController(withObjectContext: self.dataManager.mainObjectContext)
         return fetchedResultsController
     }
@@ -86,7 +93,8 @@ public class StreamAPI {
     // MARK: - Private methods
     
     /**
-     
+     Creates a request for the given endpoint and parameters and signes it with the
+     account provided
      */
     private static func signedRequest(withBaseURL baseURL: NSURL, endpoint: StreamEndpoint, parameters: [NSObject: AnyObject], account: ACAccount?) -> NSURLRequest {
         let url = baseURL.URLByAppendingPathComponent(endpoint.path)

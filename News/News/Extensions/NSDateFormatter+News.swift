@@ -5,6 +5,9 @@
 
 import Foundation
 
+/**
+ Helper methods
+ */
 extension NSDateFormatter {
     
     @nonobjc static let news_statusDataFormatter: NSDateFormatter = {

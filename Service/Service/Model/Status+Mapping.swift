@@ -63,11 +63,17 @@ extension Status {
         return entity
     }
     
+    /**
+     A fetched results controller to retrieve from database all the new items from
+     the moment the controller is created
+     */
     static func fetchedResultsController(withObjectContext objectContext: NSManagedObjectContext) -> NSFetchedResultsController {
         let name = NSStringFromClass(Status.self).componentsSeparatedByString(".").last ?? ""
         let fetchRequest = NSFetchRequest(entityName: name)
-        let sortDescriptor = NSSortDescriptor(key: "timestamp", ascending: false)
+        // Sort by insert date
+        let sortDescriptor = NSSortDescriptor(key: "insertDate", ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
+        // Filter out those inserted before this moment
         let predicate = NSPredicate(format: "(insertDate >= %@)", NSDate())
         fetchRequest.predicate = predicate
         let fetchedResultsController = NSFetchedResultsController(
