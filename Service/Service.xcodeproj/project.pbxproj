@@ -7,9 +7,36 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0727B3571DB39D0D0099F072 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0727B34D1DB39D0D0099F072 /* User+CoreDataProperties.swift */; };
+		0727B3581DB39D0D0099F072 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0727B34E1DB39D0D0099F072 /* User.swift */; };
+		0727B3591DB39D0D0099F072 /* Status+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0727B34F1DB39D0D0099F072 /* Status+CoreDataProperties.swift */; };
+		0727B35A1DB39D0D0099F072 /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0727B3501DB39D0D0099F072 /* Status.swift */; };
+		0727B35B1DB39D0D0099F072 /* Url+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0727B3511DB39D0D0099F072 /* Url+CoreDataProperties.swift */; };
+		0727B35C1DB39D0D0099F072 /* Url.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0727B3521DB39D0D0099F072 /* Url.swift */; };
+		0727B35D1DB39D0D0099F072 /* Mention+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0727B3531DB39D0D0099F072 /* Mention+CoreDataProperties.swift */; };
+		0727B35E1DB39D0D0099F072 /* Mention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0727B3541DB39D0D0099F072 /* Mention.swift */; };
+		0727B35F1DB39D0D0099F072 /* Hashtag+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0727B3551DB39D0D0099F072 /* Hashtag+CoreDataProperties.swift */; };
+		0727B3601DB39D0D0099F072 /* Hashtag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0727B3561DB39D0D0099F072 /* Hashtag.swift */; };
+		0727B3621DB39DF60099F072 /* Status+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0727B3611DB39DF60099F072 /* Status+Mapping.swift */; };
+		0727B3641DB39E010099F072 /* User+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0727B3631DB39E010099F072 /* User+Mapping.swift */; };
+		0727B3661DB39E0F0099F072 /* Url+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0727B3651DB39E0F0099F072 /* Url+Mapping.swift */; };
+		0727B3681DB39E1E0099F072 /* Hashtag+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0727B3671DB39E1E0099F072 /* Hashtag+Mapping.swift */; };
+		0727B36A1DB39E2D0099F072 /* Mention+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0727B3691DB39E2D0099F072 /* Mention+Mapping.swift */; };
+		0727B36D1DB3A27D0099F072 /* NSManagedObject+Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0727B36C1DB3A27D0099F072 /* NSManagedObject+Service.swift */; };
+		0727B36F1DB3A3120099F072 /* CollectionType+Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0727B36E1DB3A3120099F072 /* CollectionType+Service.swift */; };
 		07A12DB01DB255B50041E744 /* Service.h in Headers */ = {isa = PBXBuildFile; fileRef = 07A12DAF1DB255B50041E744 /* Service.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		07A12DB71DB255B50041E744 /* Service.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07A12DAC1DB255B50041E744 /* Service.framework */; };
 		07A12DBC1DB255B50041E744 /* ServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A12DBB1DB255B50041E744 /* ServiceTests.swift */; };
+		07A12DCA1DB258590041E744 /* StreamSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A12DC91DB258590041E744 /* StreamSessionManager.swift */; };
+		07A12DCD1DB2589E0041E744 /* NewsDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 07A12DCB1DB2589E0041E744 /* NewsDataModel.xcdatamodeld */; };
+		07A12DD01DB2593E0041E744 /* StreamAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A12DCF1DB2593E0041E744 /* StreamAPI.swift */; };
+		07A12DD21DB259500041E744 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A12DD11DB259500041E744 /* Service.swift */; };
+		07A12DD71DB259AD0041E744 /* StreamSessionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A12DD61DB259AD0041E744 /* StreamSessionManagerTests.swift */; };
+		07A12DDB1DB259F40041E744 /* TwitterAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A12DDA1DB259F40041E744 /* TwitterAPITests.swift */; };
+		07A12DDD1DB25A840041E744 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A12DDC1DB25A840041E744 /* DataManager.swift */; };
+		07A12DDF1DB25A970041E744 /* DataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A12DDE1DB25A970041E744 /* DataManagerTests.swift */; };
+		07A12DE21DB298810041E744 /* StreamEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A12DE11DB298810041E744 /* StreamEndpoint.swift */; };
+		07A12DE41DB2A4B80041E744 /* ResponseDeserializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A12DE31DB2A4B80041E744 /* ResponseDeserializer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,12 +50,39 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0727B34D1DB39D0D0099F072 /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0727B34E1DB39D0D0099F072 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		0727B34F1DB39D0D0099F072 /* Status+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Status+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0727B3501DB39D0D0099F072 /* Status.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
+		0727B3511DB39D0D0099F072 /* Url+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Url+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0727B3521DB39D0D0099F072 /* Url.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Url.swift; sourceTree = "<group>"; };
+		0727B3531DB39D0D0099F072 /* Mention+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Mention+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0727B3541DB39D0D0099F072 /* Mention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mention.swift; sourceTree = "<group>"; };
+		0727B3551DB39D0D0099F072 /* Hashtag+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Hashtag+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0727B3561DB39D0D0099F072 /* Hashtag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hashtag.swift; sourceTree = "<group>"; };
+		0727B3611DB39DF60099F072 /* Status+Mapping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Status+Mapping.swift"; sourceTree = "<group>"; };
+		0727B3631DB39E010099F072 /* User+Mapping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+Mapping.swift"; sourceTree = "<group>"; };
+		0727B3651DB39E0F0099F072 /* Url+Mapping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Url+Mapping.swift"; sourceTree = "<group>"; };
+		0727B3671DB39E1E0099F072 /* Hashtag+Mapping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Hashtag+Mapping.swift"; sourceTree = "<group>"; };
+		0727B3691DB39E2D0099F072 /* Mention+Mapping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Mention+Mapping.swift"; sourceTree = "<group>"; };
+		0727B36C1DB3A27D0099F072 /* NSManagedObject+Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+Service.swift"; sourceTree = "<group>"; };
+		0727B36E1DB3A3120099F072 /* CollectionType+Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionType+Service.swift"; sourceTree = "<group>"; };
 		07A12DAC1DB255B50041E744 /* Service.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Service.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		07A12DAF1DB255B50041E744 /* Service.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Service.h; sourceTree = "<group>"; };
 		07A12DB11DB255B50041E744 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		07A12DB61DB255B50041E744 /* ServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		07A12DBB1DB255B50041E744 /* ServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceTests.swift; sourceTree = "<group>"; };
 		07A12DBD1DB255B50041E744 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		07A12DC91DB258590041E744 /* StreamSessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamSessionManager.swift; sourceTree = "<group>"; };
+		07A12DCC1DB2589E0041E744 /* NewsDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NewsDataModel.xcdatamodel; sourceTree = "<group>"; };
+		07A12DCF1DB2593E0041E744 /* StreamAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StreamAPI.swift; path = Service/APIs/StreamAPI.swift; sourceTree = SOURCE_ROOT; };
+		07A12DD11DB259500041E744 /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		07A12DD61DB259AD0041E744 /* StreamSessionManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamSessionManagerTests.swift; sourceTree = "<group>"; };
+		07A12DDA1DB259F40041E744 /* TwitterAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterAPITests.swift; sourceTree = "<group>"; };
+		07A12DDC1DB25A840041E744 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		07A12DDE1DB25A970041E744 /* DataManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManagerTests.swift; sourceTree = "<group>"; };
+		07A12DE11DB298810041E744 /* StreamEndpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StreamEndpoint.swift; path = Service/APIs/StreamEndpoint.swift; sourceTree = SOURCE_ROOT; };
+		07A12DE31DB2A4B80041E744 /* ResponseDeserializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResponseDeserializer.swift; path = Service/APIs/ResponseDeserializer.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +104,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0727B34C1DB39CAA0099F072 /* Autogenerated */ = {
+			isa = PBXGroup;
+			children = (
+				0727B34D1DB39D0D0099F072 /* User+CoreDataProperties.swift */,
+				0727B34E1DB39D0D0099F072 /* User.swift */,
+				0727B34F1DB39D0D0099F072 /* Status+CoreDataProperties.swift */,
+				0727B3501DB39D0D0099F072 /* Status.swift */,
+				0727B3511DB39D0D0099F072 /* Url+CoreDataProperties.swift */,
+				0727B3521DB39D0D0099F072 /* Url.swift */,
+				0727B3531DB39D0D0099F072 /* Mention+CoreDataProperties.swift */,
+				0727B3541DB39D0D0099F072 /* Mention.swift */,
+				0727B3551DB39D0D0099F072 /* Hashtag+CoreDataProperties.swift */,
+				0727B3561DB39D0D0099F072 /* Hashtag.swift */,
+			);
+			path = Autogenerated;
+			sourceTree = "<group>";
+		};
+		0727B36B1DB3A2590099F072 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				0727B36C1DB3A27D0099F072 /* NSManagedObject+Service.swift */,
+				0727B36E1DB3A3120099F072 /* CollectionType+Service.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		07A12DA21DB255B50041E744 = {
 			isa = PBXGroup;
 			children = (
@@ -71,8 +151,12 @@
 		07A12DAE1DB255B50041E744 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				07A12DAF1DB255B50041E744 /* Service.h */,
-				07A12DB11DB255B50041E744 /* Info.plist */,
+				0727B36B1DB3A2590099F072 /* Extensions */,
+				07A12DC81DB257010041E744 /* Networking */,
+				07A12DC71DB256FB0041E744 /* Model */,
+				07A12DCE1DB259090041E744 /* APIs */,
+				07A12DD11DB259500041E744 /* Service.swift */,
+				07A12DD31DB259610041E744 /* Resources */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -80,10 +164,87 @@
 		07A12DBA1DB255B50041E744 /* ServiceTests */ = {
 			isa = PBXGroup;
 			children = (
+				07A12DD51DB2598C0041E744 /* Networking */,
+				07A12DD81DB259C10041E744 /* Model */,
+				07A12DD91DB259E20041E744 /* APIs */,
 				07A12DBB1DB255B50041E744 /* ServiceTests.swift */,
-				07A12DBD1DB255B50041E744 /* Info.plist */,
+				07A12DE01DB25AB50041E744 /* Resources */,
 			);
 			path = ServiceTests;
+			sourceTree = "<group>";
+		};
+		07A12DC71DB256FB0041E744 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0727B34C1DB39CAA0099F072 /* Autogenerated */,
+				0727B3611DB39DF60099F072 /* Status+Mapping.swift */,
+				0727B3631DB39E010099F072 /* User+Mapping.swift */,
+				0727B3651DB39E0F0099F072 /* Url+Mapping.swift */,
+				0727B3671DB39E1E0099F072 /* Hashtag+Mapping.swift */,
+				0727B3691DB39E2D0099F072 /* Mention+Mapping.swift */,
+				07A12DCB1DB2589E0041E744 /* NewsDataModel.xcdatamodeld */,
+				07A12DDC1DB25A840041E744 /* DataManager.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		07A12DC81DB257010041E744 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				07A12DC91DB258590041E744 /* StreamSessionManager.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		07A12DCE1DB259090041E744 /* APIs */ = {
+			isa = PBXGroup;
+			children = (
+				07A12DE11DB298810041E744 /* StreamEndpoint.swift */,
+				07A12DE31DB2A4B80041E744 /* ResponseDeserializer.swift */,
+				07A12DCF1DB2593E0041E744 /* StreamAPI.swift */,
+			);
+			path = APIs;
+			sourceTree = "<group>";
+		};
+		07A12DD31DB259610041E744 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				07A12DAF1DB255B50041E744 /* Service.h */,
+				07A12DB11DB255B50041E744 /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		07A12DD51DB2598C0041E744 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				07A12DD61DB259AD0041E744 /* StreamSessionManagerTests.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		07A12DD81DB259C10041E744 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				07A12DDE1DB25A970041E744 /* DataManagerTests.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		07A12DD91DB259E20041E744 /* APIs */ = {
+			isa = PBXGroup;
+			children = (
+				07A12DDA1DB259F40041E744 /* TwitterAPITests.swift */,
+			);
+			path = APIs;
+			sourceTree = "<group>";
+		};
+		07A12DE01DB25AB50041E744 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				07A12DBD1DB255B50041E744 /* Info.plist */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -194,6 +355,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07A12DE41DB2A4B80041E744 /* ResponseDeserializer.swift in Sources */,
+				0727B35E1DB39D0D0099F072 /* Mention.swift in Sources */,
+				0727B3661DB39E0F0099F072 /* Url+Mapping.swift in Sources */,
+				0727B36D1DB3A27D0099F072 /* NSManagedObject+Service.swift in Sources */,
+				0727B35B1DB39D0D0099F072 /* Url+CoreDataProperties.swift in Sources */,
+				07A12DCD1DB2589E0041E744 /* NewsDataModel.xcdatamodeld in Sources */,
+				0727B35C1DB39D0D0099F072 /* Url.swift in Sources */,
+				0727B3571DB39D0D0099F072 /* User+CoreDataProperties.swift in Sources */,
+				0727B3621DB39DF60099F072 /* Status+Mapping.swift in Sources */,
+				0727B36F1DB3A3120099F072 /* CollectionType+Service.swift in Sources */,
+				07A12DE21DB298810041E744 /* StreamEndpoint.swift in Sources */,
+				0727B35A1DB39D0D0099F072 /* Status.swift in Sources */,
+				07A12DDD1DB25A840041E744 /* DataManager.swift in Sources */,
+				0727B3591DB39D0D0099F072 /* Status+CoreDataProperties.swift in Sources */,
+				0727B3581DB39D0D0099F072 /* User.swift in Sources */,
+				0727B35D1DB39D0D0099F072 /* Mention+CoreDataProperties.swift in Sources */,
+				0727B3641DB39E010099F072 /* User+Mapping.swift in Sources */,
+				0727B36A1DB39E2D0099F072 /* Mention+Mapping.swift in Sources */,
+				0727B3601DB39D0D0099F072 /* Hashtag.swift in Sources */,
+				0727B35F1DB39D0D0099F072 /* Hashtag+CoreDataProperties.swift in Sources */,
+				07A12DD21DB259500041E744 /* Service.swift in Sources */,
+				07A12DD01DB2593E0041E744 /* StreamAPI.swift in Sources */,
+				0727B3681DB39E1E0099F072 /* Hashtag+Mapping.swift in Sources */,
+				07A12DCA1DB258590041E744 /* StreamSessionManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -201,6 +386,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07A12DDB1DB259F40041E744 /* TwitterAPITests.swift in Sources */,
+				07A12DDF1DB25A970041E744 /* DataManagerTests.swift in Sources */,
+				07A12DD71DB259AD0041E744 /* StreamSessionManagerTests.swift in Sources */,
 				07A12DBC1DB255B50041E744 /* ServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -310,6 +498,7 @@
 		07A12DC11DB255B50041E744 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -321,12 +510,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.nakiostudio.Service;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		07A12DC21DB255B50041E744 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -380,6 +571,7 @@
 				07A12DC21DB255B50041E744 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		07A12DC31DB255B50041E744 /* Build configuration list for PBXNativeTarget "ServiceTests" */ = {
 			isa = XCConfigurationList;
@@ -388,8 +580,22 @@
 				07A12DC51DB255B50041E744 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		07A12DCB1DB2589E0041E744 /* NewsDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				07A12DCC1DB2589E0041E744 /* NewsDataModel.xcdatamodel */,
+			);
+			currentVersion = 07A12DCC1DB2589E0041E744 /* NewsDataModel.xcdatamodel */;
+			path = NewsDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 07A12DA31DB255B50041E744 /* Project object */;
 }
