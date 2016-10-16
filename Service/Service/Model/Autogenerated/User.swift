@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 
-class User: NSManagedObject {
+public class User: NSManagedObject {
 
 // Insert code here to add functionality to your managed object subclass
 

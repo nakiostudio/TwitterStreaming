@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import Service
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -11,7 +12,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        debugPrint("Initialized Service pointing to: \(Service.shared.baseURL)")
         return true
     }
+    
+}
+
+/**
+ 
+ */
+extension Service {
+    
+    ///
+    static let shared: Service = {
+        return Service(baseURL: NSURL(string: "https://stream.twitter.com/1.1")!)
+    }()
     
 }

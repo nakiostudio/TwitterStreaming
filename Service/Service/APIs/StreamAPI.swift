@@ -46,13 +46,17 @@ public class StreamAPI {
         
         store.requestAccessToAccountsWithType(accountType, options: nil) { [weak self, store] granted, error in
             guard let twitterAccount = store.accounts.last as? ACAccount where granted else {
-                debugPrint("Unable to authenticate")
-                completion?(granted, error)
+                dispatch_async(dispatch_get_main_queue()) {
+                    debugPrint("Unable to authenticate")
+                    completion?(granted, error)
+                }
                 return
             }
             
             self?.twitterAccount = twitterAccount
-            completion?(granted, error)
+            dispatch_async(dispatch_get_main_queue()) {
+                completion?(granted, error)
+            }
         }
     }
     
@@ -65,15 +69,18 @@ public class StreamAPI {
         let signedRequest = StreamAPI.signedRequest(withBaseURL: self.baseURL, endpoint: .Statuses, parameters: parameters, account: twitterAccount)
         self.streamSessionManager.connect(withRequest: signedRequest) { [responseDeserializer] (data, error) in
             guard let data = data else {
-                completion?(false, error)
+                dispatch_async(dispatch_get_main_queue()) {
+                    completion?(false, error)
+                }
                 return
             }
             
             responseDeserializer.process(data: data)
         }
-        
+    
         //
-        return nil
+        let fetchedResultsController = Status.fetchedResultsController(withObjectContext: self.dataManager.mainObjectContext)
+        return fetchedResultsController
     }
     
     // MARK: - Private methods

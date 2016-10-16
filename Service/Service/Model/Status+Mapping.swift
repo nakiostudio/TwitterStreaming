@@ -20,6 +20,7 @@ extension Status {
             return nil
         }
         
+        entity.insertDate = NSDate()
         entity.identifier = dictionary["id_str"] as? String
         entity.text = dictionary["text"] as? String
         if let timestamp = dictionary["timestamp_ms"] as? Double {
@@ -53,13 +54,30 @@ extension Status {
                 ($0 as? Url)?.status = entity
             }
         }
-        if let mentions = dictionary["entities"]?["mentions"] as? [[NSObject: AnyObject]] {
+        if let mentions = dictionary["entities"]?["user_mentions"] as? [[NSObject: AnyObject]] {
             mentions.flatMap { Mention.entity(withDictionary: $0, objectContext: objectContext) }.forEach {
                 ($0 as? Mention)?.status = entity
             }
         }
         
         return entity
+    }
+    
+    static func fetchedResultsController(withObjectContext objectContext: NSManagedObjectContext) -> NSFetchedResultsController {
+        let name = NSStringFromClass(Status.self).componentsSeparatedByString(".").last ?? ""
+        let fetchRequest = NSFetchRequest(entityName: name)
+        let sortDescriptor = NSSortDescriptor(key: "timestamp", ascending: false)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        let predicate = NSPredicate(format: "(insertDate >= %@)", NSDate())
+        fetchRequest.predicate = predicate
+        let fetchedResultsController = NSFetchedResultsController(
+            fetchRequest: fetchRequest,
+            managedObjectContext: objectContext,
+            sectionNameKeyPath: nil,
+            cacheName: nil
+        )
+        
+        return fetchedResultsController
     }
     
 }

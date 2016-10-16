@@ -12,7 +12,7 @@
 import Foundation
 import CoreData
 
-extension User {
+public extension User {
 
     @NSManaged var identifier: String?
     @NSManaged var name: String?
