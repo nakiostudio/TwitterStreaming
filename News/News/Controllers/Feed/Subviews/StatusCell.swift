@@ -9,13 +9,19 @@ import Service
 class StatusCell: UICollectionViewCell {
     
     private static let padding: CGFloat = 10.0
-    private static let nameLabelHeight: CGFloat = 24.0
+    private static let nameLabelHeight: CGFloat = 20.0
     private static let imageWidth: CGFloat = 48.0
     
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var nameLabel: UILabel!
     @IBOutlet var dateLabel: UILabel!
     @IBOutlet var textLabel: UILabel!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.imageView.layer.masksToBounds = true
+        self.imageView.layer.cornerRadius = 5
+    }
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -26,7 +32,7 @@ class StatusCell: UICollectionViewCell {
     
     func configure(withStatus status: Status) {
         self.nameLabel.text = status.user?.screenName
-        self.dateLabel.text = String((status.timestamp ?? 0))
+        self.dateLabel.text = NSDateFormatter.news_statusDataFormatter.stringFromDate(status.insertDate ?? NSDate())
         self.textLabel.attributedText = StatusCell.attributedTextString(withStatus: status, highlightWords: true)
     }
     
@@ -56,11 +62,8 @@ class StatusCell: UICollectionViewCell {
 extension StatusCell {
     
     private static func attributedTextString(withStatus status: Status, highlightWords: Bool) -> NSAttributedString {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.15
         let attributes = [
-            NSParagraphStyleAttributeName: paragraphStyle,
-            NSFontAttributeName: UIFont.news_secondaryFont(withSize: 16),
+            NSFontAttributeName: UIFont.news_secondaryFont(withSize: 15),
             NSForegroundColorAttributeName: UIColor.news_lightText()
         ]
         

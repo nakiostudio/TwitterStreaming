@@ -23,23 +23,23 @@ extension Status {
         entity.insertDate = NSDate()
         entity.identifier = dictionary["id_str"] as? String
         entity.text = dictionary["text"] as? String
-        if let timestamp = dictionary["timestamp_ms"] as? Double {
-            entity.timestamp = NSNumber(double: timestamp)
+        if let timestamp = dictionary["timestamp_ms"] as? NSNumber {
+            entity.timestamp = timestamp
         }
-        if let favorited = dictionary["favorited"] as? Bool {
-            entity.favorited = NSNumber(bool: favorited)
+        if let favorited = dictionary["favorited"] as? NSNumber {
+            entity.favorited = favorited
         }
-        if let retweeted = dictionary["retweeted"] as? Bool {
-            entity.retweeted = NSNumber(bool: retweeted)
+        if let retweeted = dictionary["retweeted"] as? NSNumber {
+            entity.retweeted = retweeted
         }
-        if let favoriteCount = dictionary["favorite_count"] as? Int {
-            entity.favoriteCount = NSNumber(integer: favoriteCount)
+        if let favoriteCount = dictionary["favorite_count"] as? NSNumber {
+            entity.favoriteCount = favoriteCount
         }
-        if let retweetCount = dictionary["retweet_count"] as? Int {
-            entity.timestamp = NSNumber(integer: retweetCount)
+        if let retweetCount = dictionary["retweet_count"] as? NSNumber {
+            entity.timestamp = retweetCount
         }
-        if let truncated = dictionary["truncated"] as? Bool {
-            entity.truncated = NSNumber(bool: truncated)
+        if let truncated = dictionary["truncated"] as? NSNumber {
+            entity.truncated = truncated
         }
         if let dictionary = dictionary["user"] as? [NSObject: AnyObject], user = User.entity(withDictionary: dictionary, objectContext: objectContext) {
             entity.user = user

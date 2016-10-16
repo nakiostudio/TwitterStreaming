@@ -22,6 +22,7 @@
 		0790133B1DB3DC41005A5501 /* UIFont+News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0790133A1DB3DC41005A5501 /* UIFont+News.swift */; };
 		0790133E1DB3E2DC005A5501 /* MVVMBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0790133D1DB3E2DC005A5501 /* MVVMBinding.swift */; };
 		079013421DB3E7E3005A5501 /* UICollectionView+News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079013411DB3E7E3005A5501 /* UICollectionView+News.swift */; };
+		079013441DB41EC8005A5501 /* NSDateFormatter+News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079013431DB41EC8005A5501 /* NSDateFormatter+News.swift */; };
 		07A12D801DB2551C0041E744 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A12D7F1DB2551C0041E744 /* AppDelegate.swift */; };
 		07A12D851DB2551C0041E744 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07A12D831DB2551C0041E744 /* Main.storyboard */; };
 		07A12D8D1DB2551C0041E744 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07A12D8B1DB2551C0041E744 /* LaunchScreen.storyboard */; };
@@ -66,6 +67,7 @@
 		0790133A1DB3DC41005A5501 /* UIFont+News.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+News.swift"; sourceTree = "<group>"; };
 		0790133D1DB3E2DC005A5501 /* MVVMBinding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MVVMBinding.swift; sourceTree = "<group>"; };
 		079013411DB3E7E3005A5501 /* UICollectionView+News.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+News.swift"; sourceTree = "<group>"; };
+		079013431DB41EC8005A5501 /* NSDateFormatter+News.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDateFormatter+News.swift"; sourceTree = "<group>"; };
 		07A12D7C1DB2551C0041E744 /* News.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = News.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		07A12D7F1DB2551C0041E744 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		07A12D841DB2551C0041E744 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				079013411DB3E7E3005A5501 /* UICollectionView+News.swift */,
 				079013381DB3DC35005A5501 /* UIColor+News.swift */,
 				0790133A1DB3DC41005A5501 /* UIFont+News.swift */,
+				079013431DB41EC8005A5501 /* NSDateFormatter+News.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -308,6 +311,7 @@
 				079013391DB3DC35005A5501 /* UIColor+News.swift in Sources */,
 				079013421DB3E7E3005A5501 /* UICollectionView+News.swift in Sources */,
 				079013241DB3D9AD005A5501 /* FeedViewController.swift in Sources */,
+				079013441DB41EC8005A5501 /* NSDateFormatter+News.swift in Sources */,
 				079013351DB3DA80005A5501 /* FeedViewModel.swift in Sources */,
 				079013211DB3D961005A5501 /* RootViewController.swift in Sources */,
 				0790133B1DB3DC41005A5501 /* UIFont+News.swift in Sources */,

@@ -11,6 +11,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="ilz-og-LvB">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" red="0.85098039219999999" green="0.89411764709999997" blue="0.91764705879999997" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="barTintColor" red="0.85098039215686272" green="0.89411764705882346" blue="0.91764705882352937" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <connections>

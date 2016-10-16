@@ -75,7 +75,7 @@ class FeedModel: NSObject, MVVMBinding, NSFetchedResultsControllerDelegate {
             return
         }
         
-        if let status = controller.objectAtIndexPath(indexPath) as? Status {
+        if let status = controller.objectAtIndexPath(indexPath) as? Status where status.text != nil {
             self.statusesQueue.append(status)
             
             let now = NSDate().timeIntervalSince1970
