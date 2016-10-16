@@ -18,12 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
 }
 
-/**
- 
- */
 extension Service {
     
-    ///
+    /// Static accessor to the Service library
     static let shared: Service = {
         return Service(baseURL: NSURL(string: "https://stream.twitter.com/1.1")!)
     }()

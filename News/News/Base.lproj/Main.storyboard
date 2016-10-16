@@ -4,10 +4,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
-        <!--Root View Controller-->
+        <!--Navigation Controller-->
         <scene sceneID="lLE-8x-nHp">
             <objects>
-                <navigationController id="Cm6-g4-oHT" customClass="RootViewController" customModule="News" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController id="Cm6-g4-oHT" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="ilz-og-LvB">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

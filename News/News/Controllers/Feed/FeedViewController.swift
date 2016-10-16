@@ -5,12 +5,14 @@
 
 import UIKit
 
+/**
+ Controller, this class would control update of views within the view controller,
+ handle, erros, loading states, etc
+ */
 class FeedViewController: UIViewController {
     
-    ///
     @IBOutlet var collectionView: UICollectionView!
     
-    ///
     private(set) lazy var viewModel: FeedViewModel = {
         let viewModel = FeedViewModel(collectionView: self.collectionView)
         viewModel.subscribe(withClosure: self.didReceiveViewModelMessageClosure())
@@ -23,7 +25,6 @@ class FeedViewController: UIViewController {
     }
 
 }
-
 
 /**
  MVVM Binding methods and definitions
