@@ -28,8 +28,8 @@ extension Status {
         if let favorited = dictionary["favorited"] as? Bool {
             entity.favorited = NSNumber(bool: favorited)
         }
-        if let retwitted = dictionary["retwitted"] as? Bool {
-            entity.retwitted = NSNumber(bool: retwitted)
+        if let retweeted = dictionary["retweeted"] as? Bool {
+            entity.retweeted = NSNumber(bool: retweeted)
         }
         if let favoriteCount = dictionary["favorite_count"] as? Int {
             entity.favoriteCount = NSNumber(integer: favoriteCount)
@@ -44,22 +44,19 @@ extension Status {
             entity.user = user
         }
         if let hashtags = dictionary["entities"]?["hashtags"] as? [[NSObject: AnyObject]] {
-            let statusHashtags = entity.mutableOrderedSetValueForKey("hashtags")
-            statusHashtags.addObjectsFromArray(
-                hashtags.flatMap { Hashtag.entity(withDictionary: $0, objectContext: objectContext) }
-            )
+            hashtags.flatMap { Hashtag.entity(withDictionary: $0, objectContext: objectContext) }.forEach {
+                ($0 as? Hashtag)?.status = entity
+            }
         }
         if let urls = dictionary["entities"]?["urls"] as? [[NSObject: AnyObject]] {
-            let statusUrls = entity.mutableOrderedSetValueForKey("urls")
-            statusUrls.addObjectsFromArray(
-                urls.flatMap { Url.entity(withDictionary: $0, objectContext: objectContext) }
-            )
+            urls.flatMap { Url.entity(withDictionary: $0, objectContext: objectContext) }.forEach {
+                ($0 as? Url)?.status = entity
+            }
         }
         if let mentions = dictionary["entities"]?["mentions"] as? [[NSObject: AnyObject]] {
-            let statusMentions = entity.mutableOrderedSetValueForKey("mentions")
-            statusMentions.addObjectsFromArray(
-                mentions.flatMap { Mention.entity(withDictionary: $0, objectContext: objectContext) }
-            )
+            mentions.flatMap { Mention.entity(withDictionary: $0, objectContext: objectContext) }.forEach {
+                ($0 as? Mention)?.status = entity
+            }
         }
         
         return entity

@@ -43,21 +43,14 @@ public class DataManager {
     }()
     
     ///
-    private lazy var mainObjectContext: NSManagedObjectContext = {
+    public private(set) lazy var mainObjectContext: NSManagedObjectContext = {
         let managedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
         managedObjectContext.parentContext = self.rootObjectContext
         return managedObjectContext
     }()
     
     ///
-    lazy var mappingObjectContext: NSManagedObjectContext = {
-        let managedObjectContext = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
-        managedObjectContext.parentContext = self.mainObjectContext
-        return managedObjectContext
-    }()
-    
-    ///
-    public lazy var objectContext: NSManagedObjectContext = {
+    private(set) lazy var mappingObjectContext: NSManagedObjectContext = {
         let managedObjectContext = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
         managedObjectContext.parentContext = self.mainObjectContext
         return managedObjectContext
@@ -86,20 +79,20 @@ public class DataManager {
             performSaveInMapping = self.mappingObjectContext.hasChanges
         }
         
-        self.objectContext.performBlockAndWait {
-            performSaveInPublic = self.objectContext.hasChanges
-        }
-        
         //
         if !performSaveInRoot && !performSaveInMain && !performSaveInMapping && !performSaveInPublic {
             return
         }
         
         //
-        self.saveBottomUp(fromContext: self.mappingObjectContext, completion: completion)
+        if performSaveInMapping {
+            self.saveBottomUp(fromContext: self.mappingObjectContext, completion: completion)
+        }
         
         //
-        self.saveBottomUp(fromContext: self.objectContext, completion: completion)
+        if performSaveInMain {
+            self.saveBottomUp(fromContext: self.mainObjectContext, completion: completion)
+        }
     }
     
     /**
@@ -134,20 +127,23 @@ public class DataManager {
  
      */
     private func saveBottomUp(fromContext context: NSManagedObjectContext, completion: SaveCompletionClosure?) {
-        context.performBlock { 
-            do {
-                try context.save()
-            }
-            catch let error as NSError {
-                dispatch_async(dispatch_get_main_queue()) {
-                    completion?(error)
-                }
+        do {
+            try context.save()
+            if let parentContext = context.parentContext {
+                self.saveBottomUp(fromContext: parentContext, completion: completion)
                 return
             }
             
-            if let parentContext = context.parentContext {
-                self.saveBottomUp(fromContext: parentContext, completion: completion)
+            // Reached root
+            dispatch_async(dispatch_get_main_queue()) {
+                completion?(nil)
             }
+        }
+        catch let error as NSError {
+            dispatch_async(dispatch_get_main_queue()) {
+                completion?(error)
+            }
+            return
         }
     }
     

@@ -18,7 +18,7 @@ extension Status {
     @NSManaged var identifier: String?
     @NSManaged var text: String?
     @NSManaged var favorited: NSNumber?
-    @NSManaged var retwitted: NSNumber?
+    @NSManaged var retweeted: NSNumber?
     @NSManaged var favoriteCount: NSNumber?
     @NSManaged var retweetCount: NSNumber?
     @NSManaged var truncated: NSNumber?

@@ -95,8 +95,23 @@ class ResponseDeserializer {
  
      */
     private func parse(data data: NSData) {
-        let dict = try! NSJSONSerialization.JSONObjectWithData(data, options: [])
-        dump(dict)
+        guard let dataManager = self.dataManager else {
+            return
+        }
+        
+        do {
+            if let dictionary = try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [NSObject: AnyObject] {
+                let status = Status.entity(withDictionary: dictionary, objectContext: dataManager.mappingObjectContext)
+                dataManager.save() { error in
+                    if let error = error {
+                        debugPrint(error.localizedDescription)
+                    }
+                }
+            }
+        }
+        catch let error as NSError {
+            debugPrint("Unable to convert NSData into Dictionary")
+        }
     }
     
 }
