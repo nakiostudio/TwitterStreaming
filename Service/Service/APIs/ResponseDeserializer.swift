@@ -72,10 +72,16 @@ class ResponseDeserializer {
         
         //
         let message = self.message.stringByAppendingString(chunk)
-        if message.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) == length {
+        let lengthSoFar = message.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
+        if lengthSoFar == length {
             if let data = message.dataUsingEncoding(NSUTF8StringEncoding) {
                 self.parse(data: data)
             }
+            self.message = ""
+            self.length = nil
+            return
+        }
+        else if lengthSoFar > length {
             self.message = ""
             self.length = nil
             return

@@ -14,7 +14,7 @@ import Accounts
 public class StreamAPI {
     
     ///
-    public typealias CompletionClosure = (Bool, NSError?) -> ()
+    public typealias CompletionClosure = (Bool, NSError?) -> Void
     
     ///
     public let baseURL: NSURL
