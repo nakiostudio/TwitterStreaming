@@ -5,6 +5,7 @@
 
 import UIKit
 import Service
+import Kingfisher
 
 class StatusCell: UICollectionViewCell {
     
@@ -34,6 +35,9 @@ class StatusCell: UICollectionViewCell {
         self.nameLabel.text = status.user?.screenName
         self.dateLabel.text = NSDateFormatter.news_statusDataFormatter.stringFromDate(status.insertDate ?? NSDate())
         self.textLabel.attributedText = StatusCell.attributedTextString(withStatus: status, highlightWords: true)
+        if let urlString = status.user?.profileImageURL, url = NSURL(string: urlString) {
+            self.imageView.kf_setImageWithURL(url)
+        }
     }
     
     static func height(withStatus status: Status, width: CGFloat) -> CGFloat {
