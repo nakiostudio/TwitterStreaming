@@ -22,11 +22,11 @@ extension Mention {
         
         entity.screenName = dictionary["screen_name"] as? String
         entity.identifier = dictionary["id_str"] as? String
-        if let startIndex =  (dictionary["indices"] as? [Int])?[safe: 0] {
-            entity.startIndex = NSNumber(integer: startIndex)
+        if let startIndex =  (dictionary["indices"] as? [NSNumber])?[safe: 0] {
+            entity.startIndex = startIndex
         }
-        if let endIndex =  (dictionary["indices"] as? [Int])?[safe: 1] {
-            entity.endIndex = NSNumber(integer: endIndex)
+        if let endIndex =  (dictionary["indices"] as? [NSNumber])?[safe: 1] {
+            entity.endIndex = endIndex
         }
         
         return entity

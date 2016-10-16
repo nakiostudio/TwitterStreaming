@@ -12,7 +12,7 @@
 import Foundation
 import CoreData
 
-extension Url {
+public extension Url {
 
     @NSManaged var url: String?
     @NSManaged var expandedURL: String?

@@ -12,7 +12,7 @@
 import Foundation
 import CoreData
 
-extension Mention {
+public extension Mention {
 
     @NSManaged var screenName: String?
     @NSManaged var identifier: String?

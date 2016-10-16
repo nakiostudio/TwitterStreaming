@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 
-class Hashtag: NSManagedObject {
+public class Hashtag: NSManagedObject {
 
 // Insert code here to add functionality to your managed object subclass
 

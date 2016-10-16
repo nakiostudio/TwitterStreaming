@@ -17,10 +17,11 @@
         <attribute name="favoriteCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="favorited" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="insertDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="retweetCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="retweeted" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="timestamp" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="timestamp" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="truncated" optional="YES" attributeType="Boolean" syncable="YES"/>
         <relationship name="hashtags" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Hashtag" inverseName="status" inverseEntity="Hashtag" syncable="YES"/>
         <relationship name="mentions" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Mention" inverseName="status" inverseEntity="Mention" syncable="YES"/>
@@ -42,10 +43,10 @@
         <relationship name="statuses" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Status" inverseName="user" inverseEntity="Status" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Status" positionX="-306" positionY="81" width="128" height="223"/>
-        <element name="User" positionX="-108" positionY="396" width="128" height="118"/>
-        <element name="Url" positionX="-47" positionY="261" width="128" height="118"/>
-        <element name="Mention" positionX="-47" positionY="126" width="128" height="118"/>
         <element name="Hashtag" positionX="-110" positionY="9" width="128" height="103"/>
+        <element name="Mention" positionX="-47" positionY="126" width="128" height="118"/>
+        <element name="Status" positionX="-306" positionY="81" width="128" height="240"/>
+        <element name="Url" positionX="-47" positionY="261" width="128" height="118"/>
+        <element name="User" positionX="-108" positionY="396" width="128" height="118"/>
     </elements>
 </model>

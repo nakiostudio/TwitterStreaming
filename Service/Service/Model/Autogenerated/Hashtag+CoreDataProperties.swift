@@ -12,7 +12,7 @@
 import Foundation
 import CoreData
 
-extension Hashtag {
+public extension Hashtag {
 
     @NSManaged var text: String?
     @NSManaged var startIndex: NSNumber?

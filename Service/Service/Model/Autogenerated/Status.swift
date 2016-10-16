@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 
-class Status: NSManagedObject {
+public class Status: NSManagedObject {
 
 // Insert code here to add functionality to your managed object subclass
 
