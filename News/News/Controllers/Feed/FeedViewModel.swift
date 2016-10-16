@@ -7,30 +7,28 @@ import UIKit
 import CoreData
 import Service
 
+/**
+ View model binging data and view
+ */
 class FeedViewModel: NSObject, MVVMBinding, UICollectionViewDataSource, UICollectionViewDelegate {
     
-    ///
+    /// Max number of items visible on screen
     private static let batchLimit: Int = 5
     
-    ///
+    /// Closure used to notify results or messages to the view
     var messagesClosure: (Message -> Void)?
     
-    ///
     private(set) lazy var model: FeedModel = {
         let model = FeedModel()
         model.subscribe(withClosure: self.didReceiveModelMessageClosure())
         return model
     }()
     
-    ///
     private(set) weak var collectionView: UICollectionView?
     
-    ///
+    /// Statuses or tweeks currently on screen
     private(set) var statuses: [Status]
     
-    /*
- 
-     */
     init(collectionView: UICollectionView) {
         self.statuses = []
         super.init()
@@ -85,8 +83,14 @@ class FeedViewModel: NSObject, MVVMBinding, UICollectionViewDataSource, UICollec
     
     // MARK: Private methods
     
+    /**
+     This method takes the batch passed from the model and performs the insertions
+     and deletions required in order to never show more than 5 items on screen
+     */
     private func process(batch batch: [Status]) {
         let statusesCount = self.statuses.count
+        
+        // Check index paths of items to delete
         var toDelete = FeedViewModel.batchLimit - statusesCount - batch.count
         toDelete = toDelete >= 0 ? 0 : (toDelete * -1)
         var indexPathsToDelete: [NSIndexPath] = []
@@ -94,11 +98,14 @@ class FeedViewModel: NSObject, MVVMBinding, UICollectionViewDataSource, UICollec
             indexPathsToDelete.append(NSIndexPath(forItem: statusesCount-i-1, inSection: 0))
             self.statuses.removeLast()
         }
+        
+        // Check index paths of items to insert
         var indexPathsToInsert: [NSIndexPath] = []
         for i in 0..<batch.count {
             indexPathsToInsert.append(NSIndexPath(forItem: i, inSection: 0))
         }
         
+        // Perform updates
         self.collectionView?.performBatchUpdates({
             self.collectionView?.deleteItemsAtIndexPaths(indexPathsToDelete)
         }, completion: { _ in
@@ -123,7 +130,7 @@ extension FeedViewModel {
     }
     
     enum Message {
-        case DidRequest
+        // Nothing implemented yet
     }
     
     func didReceive(signal signal: Signal) {
@@ -133,12 +140,17 @@ extension FeedViewModel {
         }
     }
     
+    /**
+     Messages received from model
+     */
     func didReceiveModelMessageClosure() -> (FeedModel.Message -> Void) {
         return { [weak self] message in
             switch message {
             case .AccessGranted:
+                // TODO: Handle this
                 break
-            case let .ErrorReceived(error):
+            case .ErrorReceived(_):
+                // TODO: Handle this
                 break
             case let .BatchFetched(batch):
                 self?.process(batch: batch)

@@ -7,41 +7,53 @@ import Foundation
 import Service
 import CoreData
 
+/**
+ Element in charge or authenticating the user and retrieving the items stored in
+ database coming from the stream
+ */
 class FeedModel: NSObject, MVVMBinding, NSFetchedResultsControllerDelegate {
     
-    private static let keywords = ["trump"]
+    /// Keywords queries
+    /// ⚠️ Use the "trump" keyword at your own risk ⚠️
+    private static let keywords = ["transferwise"]
     
-    private static let updateInterval: NSTimeInterval = 15
+    /// If there are millions of statuses coming throught this limits their
+    /// appearance on screen
+    private static let updateInterval: NSTimeInterval = 10
     
+    /// Maximum number of items that can be passed at once to the view model
     private static let batchLimit: Int = 5
     
-    ///
-    let streamAPI: StreamAPI
+    /// Utils that authenticate the user and creates the stream connection
+    private let streamAPI: StreamAPI
     
-    ///
+    /// Closure used to notify results or messages to the view model
     var messagesClosure: (Message -> Void)?
     
-    ///
-    private(set) var fetchedResultsController: NSFetchedResultsController?
+    /// Fetched results controller returned by the StreamAPI upon creating the
+    /// stream
+    private var fetchedResultsController: NSFetchedResultsController?
     
-    ///
-    private(set) var lastProcessedBatch: NSTimeInterval
+    /// Timestamp when the last item was passed to the view model
+    private var lastProcessedBatch: NSTimeInterval
     
-    ///
-    private(set) var statusesQueue: [Status]
+    /// Statuses queued before being passed to the view model
+    private var statusesQueue: [Status]
     
-    /**
- 
-     */
+    private var timer: NSTimer?
+    
     override init() {
         self.statusesQueue = []
-        self.lastProcessedBatch = NSDate().timeIntervalSince1970 - 10
+        self.lastProcessedBatch = NSDate().timeIntervalSince1970 - 5
         self.streamAPI = Service.shared.streamAPI
         super.init()
     }
     
     // MARK: - Private methods
     
+    /**
+     Requests access to the system social accounts
+     */
     private func requestAccess() {
         self.streamAPI.authenticate { [weak self] success, error in
             if success {
@@ -53,6 +65,9 @@ class FeedModel: NSObject, MVVMBinding, NSFetchedResultsControllerDelegate {
         }
     }
     
+    /**
+     Gets the statuses for the given keywords
+     */
     private func getStatuses(withKeywords keywords: [String]) {
         let controller = self.streamAPI.statuses(forKeywords: keywords) { [weak self] success, error in
             if success {
@@ -62,10 +77,35 @@ class FeedModel: NSObject, MVVMBinding, NSFetchedResultsControllerDelegate {
             self?.messagesClosure?(.ErrorReceived(error))
         }
         
-        //
+        // If the stream is going to be open a fetched results controller is
+        // returned. We make the model delegate to start retrieving items
         self.fetchedResultsController = controller
         self.fetchedResultsController?.delegate = self
         try! self.fetchedResultsController?.performFetch()
+    }
+    
+    /**
+     Controls how frequently we feed the view model with new results
+     */
+    func throttle() {
+        let now = NSDate().timeIntervalSince1970
+        if now - self.lastProcessedBatch > FeedModel.updateInterval {
+            // Send the newest five items, flush the queue and notify the view model
+            let slice = Array(self.statusesQueue.suffix(FeedModel.batchLimit))
+            self.messagesClosure?(.BatchFetched(slice))
+            self.statusesQueue.removeAll()
+            self.lastProcessedBatch = now
+            return
+        }
+        
+        // Try again in two seconds
+        self.timer = NSTimer.scheduledTimerWithTimeInterval(
+            2.0,
+            target: self,
+            selector: #selector(throttle),
+            userInfo: nil,
+            repeats: false
+        )
     }
     
     // MARK: - NSFetchedResultsControllerDelegate methods
@@ -75,17 +115,15 @@ class FeedModel: NSObject, MVVMBinding, NSFetchedResultsControllerDelegate {
             return
         }
         
+        // Invalidate current throttling
+        self.timer?.invalidate()
+        self.timer = nil
+        
+        // Takes items inserted and passes them to view model after the given 
+        // throttle
         if let status = controller.objectAtIndexPath(indexPath) as? Status where status.text != nil {
             self.statusesQueue.append(status)
-            
-            let now = NSDate().timeIntervalSince1970
-            if now - self.lastProcessedBatch > FeedModel.updateInterval {
-                let slice = Array(self.statusesQueue.suffix(FeedModel.batchLimit))
-                self.messagesClosure?(.BatchFetched(slice))
-                self.statusesQueue.removeAll()
-                self.lastProcessedBatch = now
-                return
-            }
+            self.throttle()
         }
     }
     

@@ -5,6 +5,9 @@
 
 import UIKit
 
+/**
+ Helper methods
+ */
 extension UIFont {
     
     static func news_primaryFont(withSize size: CGFloat) -> UIFont {

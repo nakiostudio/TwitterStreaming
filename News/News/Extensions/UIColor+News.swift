@@ -5,6 +5,9 @@
 
 import UIKit
 
+/**
+ Helper methods
+ */
 extension UIColor {
     
     static func news_darkBackground() -> UIColor {

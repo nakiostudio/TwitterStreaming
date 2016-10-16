@@ -5,6 +5,9 @@
 
 import UIKit
 
+/**
+ Helper methods
+ */
 extension UICollectionView {
     
     func news_registerNib<T where T: UICollectionViewCell>(fromClass class: T.Type) {

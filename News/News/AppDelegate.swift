@@ -1,5 +1,5 @@
 //
-//  Created by Carlos Vidal Pallin on 15/10/2016.
+//  Created by Carlos Vidal Pallin on 16/10/2016.
 //  Copyright © 2016 nakioStudio. All rights reserved.
 //
 
@@ -18,12 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
 }
 
-/**
- 
- */
 extension Service {
     
-    ///
+    /// Static accessor to the Service library
     static let shared: Service = {
         return Service(baseURL: NSURL(string: "https://stream.twitter.com/1.1")!)
     }()
