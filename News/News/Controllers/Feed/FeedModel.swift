@@ -15,14 +15,14 @@ class FeedModel: NSObject, MVVMBinding, NSFetchedResultsControllerDelegate {
     
     /// Keywords queries
     /// ⚠️ Use the "trump" keyword at your own risk ⚠️
-    private static let keywords = ["transferwise"]
+    private static let keywords = ["trump"]
     
     /// If there are millions of statuses coming throught this limits their
     /// appearance on screen
-    private static let updateInterval: NSTimeInterval = 10
+    private static let updateInterval: NSTimeInterval = 3
     
     /// Maximum number of items that can be passed at once to the view model
-    private static let batchLimit: Int = 5
+    private static let batchLimit: Int = 1
     
     /// Utils that authenticate the user and creates the stream connection
     private let streamAPI: StreamAPI
@@ -44,7 +44,7 @@ class FeedModel: NSObject, MVVMBinding, NSFetchedResultsControllerDelegate {
     
     override init() {
         self.statusesQueue = []
-        self.lastProcessedBatch = NSDate().timeIntervalSince1970 - 5
+        self.lastProcessedBatch = NSDate().timeIntervalSince1970 - 2
         self.streamAPI = Service.shared.streamAPI
         super.init()
     }

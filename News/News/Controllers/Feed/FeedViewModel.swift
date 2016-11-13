@@ -13,7 +13,7 @@ import Service
 class FeedViewModel: NSObject, MVVMBinding, UICollectionViewDataSource, UICollectionViewDelegate {
     
     /// Max number of items visible on screen
-    private static let batchLimit: Int = 5
+    private static let batchLimit: Int = 20
     
     /// Closure used to notify results or messages to the view
     var messagesClosure: (Message -> Void)?
