@@ -21,7 +21,7 @@ public class DataManager {
     private static let sqliteURL: NSURL = {
         let directories = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
         let documentsDirectory = directories[directories.count - 1]
-        return documentsDirectory.URLByAppendingPathComponent("NewsDataModel.sqlite")
+        return documentsDirectory.URLByAppendingPathComponent("NewsDataModel.sqlite")!
     }()
     
     /// Object model
@@ -67,7 +67,6 @@ public class DataManager {
         var performSaveInRoot = false
         var performSaveInMain = false
         var performSaveInMapping = false
-        var performSaveInPublic = false
         
         self.rootObjectContext.performBlockAndWait { 
             performSaveInRoot = self.rootObjectContext.hasChanges
@@ -82,7 +81,7 @@ public class DataManager {
         }
         
         // Don't do anything if there are no changes no merge
-        if !performSaveInRoot && !performSaveInMain && !performSaveInMapping && !performSaveInPublic {
+        if !performSaveInRoot && !performSaveInMain && !performSaveInMapping {
             return
         }
         

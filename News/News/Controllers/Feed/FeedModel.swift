@@ -15,7 +15,7 @@ class FeedModel: NSObject, MVVMBinding, NSFetchedResultsControllerDelegate {
     
     /// Keywords queries
     /// ⚠️ Use the "trump" keyword at your own risk ⚠️
-    private static let keywords = ["transferwise"]
+    private static let keywords = ["trump"]
     
     /// If there are millions of statuses coming throught this limits their
     /// appearance on screen
