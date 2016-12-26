@@ -143,7 +143,6 @@
 				07A12D7E1DB2551C0041E744 /* News */,
 				07A12D961DB2551C0041E744 /* NewsTests */,
 				07A12D7D1DB2551C0041E744 /* Products */,
-				0727B3481DB3890C0099F072 /* Service.framework */,
 				52942268E9DB2B9B1A537AF8 /* Pods */,
 				1714F3C29384B3AF5CF03D6F /* Frameworks */,
 			);
@@ -192,6 +191,7 @@
 		1714F3C29384B3AF5CF03D6F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0727B3481DB3890C0099F072 /* Service.framework */,
 				57FD312402BB292B7F81B39F /* Pods_News.framework */,
 			);
 			name = Frameworks;

@@ -40,8 +40,6 @@ class FeedModel: NSObject, MVVMBinding, NSFetchedResultsControllerDelegate {
     /// Statuses queued before being passed to the view model
     private var statusesQueue: [Status]
     
-    private var timer: NSTimer?
-    
     override init() {
         self.statusesQueue = []
         self.lastProcessedBatch = NSDate().timeIntervalSince1970 - 2
@@ -98,14 +96,11 @@ class FeedModel: NSObject, MVVMBinding, NSFetchedResultsControllerDelegate {
             return
         }
         
-        // Try again in two seconds
-        self.timer = NSTimer.scheduledTimerWithTimeInterval(
-            2.0,
-            target: self,
-            selector: #selector(throttle),
-            userInfo: nil,
-            repeats: false
-        )
+        // Try again after the interval defined by `updateInterval`
+        let interval = dispatch_time(DISPATCH_TIME_NOW, Int64(FeedModel.updateInterval * Double(NSEC_PER_SEC)))
+        dispatch_after(interval, dispatch_get_main_queue()) {
+            self.throttle()
+        }
     }
     
     // MARK: - NSFetchedResultsControllerDelegate methods
@@ -114,10 +109,6 @@ class FeedModel: NSObject, MVVMBinding, NSFetchedResultsControllerDelegate {
         guard let indexPath = newIndexPath where type == .Insert else {
             return
         }
-        
-        // Invalidate current throttling
-        self.timer?.invalidate()
-        self.timer = nil
         
         // Takes items inserted and passes them to view model after the given 
         // throttle
