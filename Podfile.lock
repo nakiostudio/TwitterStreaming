@@ -1,12 +1,15 @@
 PODS:
+  - EasyPeasy (1.3.1)
   - Kingfisher (2.6.0)
 
 DEPENDENCIES:
+  - EasyPeasy (= 1.3.1)
   - Kingfisher (= 2.6.0)
 
 SPEC CHECKSUMS:
+  EasyPeasy: 7679dc0c2f855e17267feb97d44b33dc62738997
   Kingfisher: d84c5fd176ea86cc7b8aac65fd55feda6f70f130
 
-PODFILE CHECKSUM: 222c7618b952a3988bf51c684cae48b7111c44ae
+PODFILE CHECKSUM: 547a3c82b3d0cdc9dcb7968214a24c6510c73f65
 
 COCOAPODS: 1.1.0.rc.2
