@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import EasyPeasy
 
 /**
  Controller, this class would control update of views within the view controller,
@@ -19,9 +20,46 @@ class FeedViewController: UIViewController {
         return viewModel
     }()
     
+    private(set) lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+        return activityIndicator
+    }()
+    
+    private (set) lazy var textField: UITextField = {
+        let textField = UITextField(frame: CGRectZero)
+        textField.backgroundColor = UIColor.lightGrayColor().colorWithAlphaComponent(0.35)
+        textField.font = UIFont.news_secondaryFont(withSize: 16)
+        textField.placeholder = "Search for keywords"
+        textField.textAlignment = .Center
+        textField.autocorrectionType = .No
+        textField.layer.cornerRadius = 6.0
+        return textField
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.viewModel.send(signal: .LoadContent)
+        
+        // Title view
+        self.navigationItem.titleView = self.activityIndicator
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Show activity and request Twitter credentials
+        self.activityIndicator.startAnimating()
+        self.viewModel.send(signal: .RequestAccountAccess)
+    }
+    
+    // MARK: - Private methods
+    
+    private func setupTextField() {
+        self.navigationItem.titleView = self.textField
+        self.textField.delegate = self.viewModel
+        self.textField.becomeFirstResponder()
+        self.textField <- [
+            Left(5.0), Right(5.0), Height(32.0), CenterY(0.0)
+        ]
     }
 
 }
@@ -32,8 +70,11 @@ class FeedViewController: UIViewController {
 extension FeedViewController {
     
     func didReceiveViewModelMessageClosure() -> (FeedViewModel.Message -> Void) {
-        return { message in
-            
+        return { [weak self] message in
+            switch message {
+            case .AccessGranted:
+                self?.setupTextField()
+            }
         }
     }
     
