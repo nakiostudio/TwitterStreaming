@@ -5,7 +5,7 @@ This demo project is just an example of how to interact with a streaming API on 
 iOS project. Particularly, this demo takes use of the statuses streaming API Twitter
 offers, its documentation is available [here](https://dev.twitter.com/streaming/public).
 
-![gif](https://media.giphy.com/media/l3vRntDnyQ4JFx0FG/giphy.gif)
+![gif](https://media.giphy.com/media/26FL8D3v8W5IjN9D2/giphy.gif)
 
 ### Setup
 Follow these steps to run the demo project:
