@@ -13,10 +13,6 @@ import CoreData
  */
 class FeedModel: NSObject, MVVMBinding, NSFetchedResultsControllerDelegate {
     
-    /// Keywords queries
-    /// ⚠️ Use the "trump" keyword at your own risk ⚠️
-    private static let keywords = ["trump"]
-    
     /// If there are millions of statuses coming throught this limits their
     /// appearance on screen
     private static let updateInterval: NSTimeInterval = 3
@@ -40,8 +36,6 @@ class FeedModel: NSObject, MVVMBinding, NSFetchedResultsControllerDelegate {
     /// Statuses queued before being passed to the view model
     private var statusesQueue: [Status]
     
-    private var timer: NSTimer?
-    
     override init() {
         self.statusesQueue = []
         self.lastProcessedBatch = NSDate().timeIntervalSince1970 - 2
@@ -57,12 +51,20 @@ class FeedModel: NSObject, MVVMBinding, NSFetchedResultsControllerDelegate {
     private func requestAccess() {
         self.streamAPI.authenticate { [weak self] success, error in
             if success {
-                self?.getStatuses(withKeywords: FeedModel.keywords)
+                self?.messagesClosure?(.AccessGranted)
                 return
             }
             
             self?.messagesClosure?(.ErrorReceived(error))
         }
+    }
+    
+    /**
+     Terminates the fetching section if exists
+     */
+    private func destroyCurrentFetchedResultsController() {
+        self.fetchedResultsController?.delegate = nil
+        self.fetchedResultsController = nil
     }
     
     /**
@@ -89,7 +91,7 @@ class FeedModel: NSObject, MVVMBinding, NSFetchedResultsControllerDelegate {
      */
     func throttle() {
         let now = NSDate().timeIntervalSince1970
-        if now - self.lastProcessedBatch > FeedModel.updateInterval {
+        if now - self.lastProcessedBatch > FeedModel.updateInterval && self.fetchedResultsController != nil {
             // Send the newest five items, flush the queue and notify the view model
             let slice = Array(self.statusesQueue.suffix(FeedModel.batchLimit))
             self.messagesClosure?(.BatchFetched(slice))
@@ -98,26 +100,19 @@ class FeedModel: NSObject, MVVMBinding, NSFetchedResultsControllerDelegate {
             return
         }
         
-        // Try again in two seconds
-        self.timer = NSTimer.scheduledTimerWithTimeInterval(
-            2.0,
-            target: self,
-            selector: #selector(throttle),
-            userInfo: nil,
-            repeats: false
-        )
+        // Try again after the interval defined by `updateInterval`
+        let interval = dispatch_time(DISPATCH_TIME_NOW, Int64(FeedModel.updateInterval * Double(NSEC_PER_SEC)))
+        dispatch_after(interval, dispatch_get_main_queue()) {
+            self.throttle()
+        }
     }
     
     // MARK: - NSFetchedResultsControllerDelegate methods
     
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
-        guard let indexPath = newIndexPath where type == .Insert else {
+        guard let indexPath = newIndexPath where type == .Insert && controller.delegate != nil else {
             return
         }
-        
-        // Invalidate current throttling
-        self.timer?.invalidate()
-        self.timer = nil
         
         // Takes items inserted and passes them to view model after the given 
         // throttle
@@ -136,6 +131,7 @@ extension FeedModel {
     
     enum Signal {
         case RequestAccountAccess
+        case GetStatuses([String])
     }
     
     enum Message {
@@ -148,6 +144,9 @@ extension FeedModel {
         switch signal {
         case .RequestAccountAccess:
             self.requestAccess()
+        case let .GetStatuses(keywords):
+            self.destroyCurrentFetchedResultsController()
+            self.getStatuses(withKeywords: keywords)
         }
     }
     

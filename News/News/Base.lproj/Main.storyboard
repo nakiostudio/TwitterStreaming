@@ -60,27 +60,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="3gb-9n-gqV">
                         <nil key="title"/>
-                        <view key="titleView" contentMode="scaleToFill" id="GYP-ck-Ar2">
-                            <rect key="frame" x="67.5" y="5.5" width="240" height="33"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#trump" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="czb-dJ-3Q4">
-                                    <rect key="frame" x="89" y="4.5" width="62" height="25"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" id="jog-pQ-Xgl"/>
-                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" id="oKF-Ux-F41"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="18"/>
-                                    <color key="textColor" red="0.16078431372549018" green="0.1803921568627451" blue="0.23921568627450979" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                            </subviews>
-                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                            <constraints>
-                                <constraint firstItem="czb-dJ-3Q4" firstAttribute="centerX" secondItem="GYP-ck-Ar2" secondAttribute="centerX" id="03q-Wf-wQh"/>
-                                <constraint firstItem="czb-dJ-3Q4" firstAttribute="centerY" secondItem="GYP-ck-Ar2" secondAttribute="centerY" id="UWu-TM-A5q"/>
-                            </constraints>
-                        </view>
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="u6g-JO-rIP" id="IoL-KU-QmL"/>

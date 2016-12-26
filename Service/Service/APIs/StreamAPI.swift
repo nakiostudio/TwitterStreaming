@@ -71,6 +71,10 @@ public class StreamAPI {
      upon server response
      */
     public func statuses(forKeywords keywords: [String], completion: CompletionClosure?) -> NSFetchedResultsController? {
+        // Disconnect from current sessions
+        self.streamSessionManager.disconnect()
+        
+        // Prepare new streaming session
         let parameters = ["track": keywords.joinWithSeparator(","), "delimited": "length"]
         let responseDeserializer = ResponseDeserializer(dataManager: self.dataManager, endpoint: .Statuses)
         let signedRequest = StreamAPI.signedRequest(withBaseURL: self.baseURL, endpoint: .Statuses, parameters: parameters, account: twitterAccount)

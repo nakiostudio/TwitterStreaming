@@ -118,6 +118,52 @@ class FeedViewModel: NSObject, MVVMBinding, UICollectionViewDataSource, UICollec
         })
     }
     
+    /**
+     Removes all the items in the `UICollectionView`
+     */
+    private func clearStatuses() {
+        let statusesCount = self.statuses.count
+        
+        // Check index paths of items to delete
+        var toDelete = -statusesCount
+        toDelete = toDelete >= 0 ? 0 : (toDelete * -1)
+        var indexPathsToDelete: [NSIndexPath] = []
+        for i in 0..<toDelete {
+            indexPathsToDelete.append(NSIndexPath(forItem: statusesCount-i-1, inSection: 0))
+            self.statuses.removeLast()
+        }
+        
+        // Perform updates
+        self.collectionView?.performBatchUpdates({
+            self.collectionView?.deleteItemsAtIndexPaths(indexPathsToDelete)
+        }, completion: nil)
+    }
+    
+}
+
+/**
+ UITextFieldDelegate methods
+ */
+extension FeedViewModel: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        guard let text = textField.text where text.characters.count > 0 else {
+            return false
+        }
+        
+        // Resign first responder
+        textField.resignFirstResponder()
+        
+        // Split the query into keywords and perform search
+        let statuses = text.componentsSeparatedByString(" ")
+        self.model.send(signal: .GetStatuses(statuses))
+        
+        // Clear collection
+        self.clearStatuses()
+        
+        return true
+    }
+    
 }
 
 /**
@@ -126,16 +172,16 @@ class FeedViewModel: NSObject, MVVMBinding, UICollectionViewDataSource, UICollec
 extension FeedViewModel {
     
     enum Signal {
-        case LoadContent
+        case RequestAccountAccess
     }
     
     enum Message {
-        // Nothing implemented yet
+        case AccessGranted
     }
     
     func didReceive(signal signal: Signal) {
         switch signal {
-        case .LoadContent:
+        case .RequestAccountAccess:
             self.model.send(signal: .RequestAccountAccess)
         }
     }
@@ -147,8 +193,7 @@ extension FeedViewModel {
         return { [weak self] message in
             switch message {
             case .AccessGranted:
-                // TODO: Handle this
-                break
+                self?.messagesClosure?(.AccessGranted)
             case .ErrorReceived(_):
                 // TODO: Handle this
                 break
