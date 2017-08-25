@@ -14,10 +14,10 @@ import Accounts
 public class StreamAPI {
     
     /// Alias of the closure called to notify results
-    public typealias CompletionClosure = (Bool, NSError?) -> Void
+    public typealias CompletionClosure = (Bool, Error?) -> Void
     
     /// URL the endpoint paths will be append to
-    public let baseURL: NSURL
+    public let baseURL: URL
     
     /// Database utils
     public let dataManager: DataManager
@@ -27,9 +27,9 @@ public class StreamAPI {
     
     /// If the user gets authenticated the account is persisted here in order to
     /// sign requests
-    private(set) var twitterAccount: ACAccount?
+    fileprivate(set) var twitterAccount: ACAccount?
     
-    init(baseURL: NSURL, dataManager: DataManager, streamSessionManager: StreamSessionManager) {
+    init(baseURL: URL, dataManager: DataManager, streamSessionManager: StreamSessionManager) {
         self.baseURL = baseURL
         self.dataManager = dataManager
         self.streamSessionManager = streamSessionManager
@@ -42,13 +42,13 @@ public class StreamAPI {
      device
      - parameter completion: Closure called to notify the result
      */
-    public func authenticate(completion: CompletionClosure?) {
+    public func authenticate(_ completion: CompletionClosure?) {
         let store = ACAccountStore()
-        let accountType = store.accountTypeWithAccountTypeIdentifier(ACAccountTypeIdentifierTwitter)
+        let accountType = store.accountType(withAccountTypeIdentifier: ACAccountTypeIdentifierTwitter)
         
-        store.requestAccessToAccountsWithType(accountType, options: nil) { [weak self, store] granted, error in
-            guard let twitterAccount = store.accounts.last as? ACAccount where granted else {
-                dispatch_async(dispatch_get_main_queue()) {
+        store.requestAccessToAccounts(with: accountType, options: nil) { [weak self, store] granted, error in
+            guard let twitterAccount = store.accounts.lastObject as? ACAccount, granted else {
+                DispatchQueue.main.async {
                     debugPrint("Unable to authenticate")
                     completion?(granted, error)
                 }
@@ -56,7 +56,7 @@ public class StreamAPI {
             }
             
             self?.twitterAccount = twitterAccount
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 completion?(granted, error)
             }
         }
@@ -70,17 +70,17 @@ public class StreamAPI {
      - returns A `NSFetchedResultsController` to fetch the statuses stored in database
      upon server response
      */
-    public func statuses(forKeywords keywords: [String], completion: CompletionClosure?) -> NSFetchedResultsController? {
+    public func statuses(forKeywords keywords: [String], completion: CompletionClosure?) -> NSFetchedResultsController<NSFetchRequestResult>? {
         // Disconnect from current sessions
         self.streamSessionManager.disconnect()
         
         // Prepare new streaming session
-        let parameters = ["track": keywords.joinWithSeparator(","), "delimited": "length"]
-        let responseDeserializer = ResponseDeserializer(dataManager: self.dataManager, endpoint: .Statuses)
-        let signedRequest = StreamAPI.signedRequest(withBaseURL: self.baseURL, endpoint: .Statuses, parameters: parameters, account: twitterAccount)
+        let parameters = ["track": keywords.joined(separator: ","), "delimited": "length"]
+        let responseDeserializer = ResponseDeserializer(dataManager: self.dataManager, endpoint: .statuses)
+        let signedRequest = StreamAPI.signedRequest(withBaseURL: self.baseURL, endpoint: .statuses, parameters: parameters, account: twitterAccount)
         self.streamSessionManager.connect(withRequest: signedRequest) { [responseDeserializer] (data, error) in
             guard let data = data else {
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     completion?(false, error)
                 }
                 return
@@ -100,11 +100,11 @@ public class StreamAPI {
      Creates a request for the given endpoint and parameters and signes it with the
      account provided
      */
-    private static func signedRequest(withBaseURL baseURL: NSURL, endpoint: StreamEndpoint, parameters: [NSObject: AnyObject], account: ACAccount?) -> NSURLRequest {
-        let url = baseURL.URLByAppendingPathComponent(endpoint.path)
-        let request = SLRequest(forServiceType: SLServiceTypeTwitter, requestMethod: endpoint.method, URL: url, parameters: parameters)
-        request.account = account
-        return request.preparedURLRequest()
+    fileprivate static func signedRequest(withBaseURL baseURL: URL, endpoint: StreamEndpoint, parameters: [AnyHashable: Any], account: ACAccount?) -> URLRequest {
+        let url = baseURL.appendingPathComponent(endpoint.path)
+        let request = SLRequest(forServiceType: SLServiceTypeTwitter, requestMethod: endpoint.method, url: url, parameters: parameters)
+        request!.account = account
+        return request!.preparedURLRequest()
     }
 
 }

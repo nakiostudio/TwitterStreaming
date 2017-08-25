@@ -20,13 +20,13 @@ protocol MVVMBinding: NSObjectProtocol {
     associatedtype Message
     
     /// Closure used by view model or model to notify results or messages
-    var messagesClosure: (Message -> Void)? { get set }
+    var messagesClosure: ((Message) -> Void)? { get set }
     
     /**
      Method to be defined within the classes conforming this protocol to react
      to the signals passed
      */
-    func didReceive(signal signal: Signal)
+    func didReceive(signal: Signal)
     
 }
 
@@ -36,14 +36,14 @@ extension MVVMBinding {
      As soon as a class subscribes to the view model/model it will start
      receiving messages from view/model
      */
-    func subscribe(withClosure closure: (Message -> Void)?) {
+    func subscribe(withClosure closure: ((Message) -> Void)?) {
         self.messagesClosure = closure
     }
     
     /**
      An easy way for the subscriber to send signals
      */
-    func send(signal signal: Signal) {
+    func send(signal: Signal) {
         self.didReceive(signal: signal)
     }
     

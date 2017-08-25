@@ -15,12 +15,12 @@ extension Status {
      - parameter objectContext: Context where the entity will be created on
      - returns The entity if it has been created
      */
-    static func entity(withDictionary dictionary: [NSObject: AnyObject], objectContext: NSManagedObjectContext) -> Status? {
+    static func entity(withDictionary dictionary: [AnyHashable: Any], objectContext: NSManagedObjectContext) -> Status? {
         guard let entity = NSManagedObject.service_entity(ofClass: Status.self, objectContext: objectContext) else {
             return nil
         }
         
-        entity.insertDate = NSDate()
+        entity.insertDate = Date()
         entity.identifier = dictionary["id_str"] as? String
         entity.text = dictionary["text"] as? String
         if let timestamp = dictionary["timestamp_ms"] as? NSNumber {
@@ -41,22 +41,22 @@ extension Status {
         if let truncated = dictionary["truncated"] as? NSNumber {
             entity.truncated = truncated
         }
-        if let dictionary = dictionary["user"] as? [NSObject: AnyObject], user = User.entity(withDictionary: dictionary, objectContext: objectContext) {
+        if let dictionary = dictionary["user"] as? [AnyHashable: Any], let user = User.entity(withDictionary: dictionary, objectContext: objectContext) {
             entity.user = user
         }
-        if let hashtags = dictionary["entities"]?["hashtags"] as? [[NSObject: AnyObject]] {
+        if let hashtags = (dictionary["entities"] as? [AnyHashable: Any])?["hashtags"] as? [[AnyHashable: Any]] {
             hashtags.flatMap { Hashtag.entity(withDictionary: $0, objectContext: objectContext) }.forEach {
-                ($0 as? Hashtag)?.status = entity
+                $0.status = entity
             }
         }
-        if let urls = dictionary["entities"]?["urls"] as? [[NSObject: AnyObject]] {
+        if let urls = (dictionary["entities"] as? [AnyHashable: Any])?["urls"] as? [[AnyHashable: Any]] {
             urls.flatMap { Url.entity(withDictionary: $0, objectContext: objectContext) }.forEach {
-                ($0 as? Url)?.status = entity
+                $0.status = entity
             }
         }
-        if let mentions = dictionary["entities"]?["user_mentions"] as? [[NSObject: AnyObject]] {
+        if let mentions = (dictionary["entities"] as? [AnyHashable: Any])?["user_mentions"] as? [[AnyHashable: Any]] {
             mentions.flatMap { Mention.entity(withDictionary: $0, objectContext: objectContext) }.forEach {
-                ($0 as? Mention)?.status = entity
+                $0.status = entity
             }
         }
         
@@ -67,14 +67,14 @@ extension Status {
      A fetched results controller to retrieve from database all the new items from
      the moment the controller is created
      */
-    static func fetchedResultsController(withObjectContext objectContext: NSManagedObjectContext) -> NSFetchedResultsController {
-        let name = NSStringFromClass(Status.self).componentsSeparatedByString(".").last ?? ""
-        let fetchRequest = NSFetchRequest(entityName: name)
+    static func fetchedResultsController(withObjectContext objectContext: NSManagedObjectContext) -> NSFetchedResultsController<NSFetchRequestResult> {
+        let name = NSStringFromClass(Status.self).components(separatedBy: ".").last ?? ""
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: name)
         // Sort by insert date
         let sortDescriptor = NSSortDescriptor(key: "insertDate", ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
         // Filter out those inserted before this moment
-        let predicate = NSPredicate(format: "(insertDate >= %@)", NSDate())
+        let predicate = NSPredicate(format: "(insertDate >= %@)", argumentArray: [Date()])
         fetchRequest.predicate = predicate
         let fetchedResultsController = NSFetchedResultsController(
             fetchRequest: fetchRequest,

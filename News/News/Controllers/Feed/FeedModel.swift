@@ -15,30 +15,30 @@ class FeedModel: NSObject, MVVMBinding, NSFetchedResultsControllerDelegate {
     
     /// If there are millions of statuses coming throught this limits their
     /// appearance on screen
-    private static let updateInterval: NSTimeInterval = 3
+    fileprivate static let updateInterval: TimeInterval = 3
     
     /// Maximum number of items that can be passed at once to the view model
-    private static let batchLimit: Int = 1
+    fileprivate static let batchLimit: Int = 1
     
     /// Utils that authenticate the user and creates the stream connection
-    private let streamAPI: StreamAPI
+    fileprivate let streamAPI: StreamAPI
     
     /// Closure used to notify results or messages to the view model
-    var messagesClosure: (Message -> Void)?
+    var messagesClosure: ((Message) -> Void)?
     
     /// Fetched results controller returned by the StreamAPI upon creating the
     /// stream
-    private var fetchedResultsController: NSFetchedResultsController?
+    fileprivate var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
     
     /// Timestamp when the last item was passed to the view model
-    private var lastProcessedBatch: NSTimeInterval
+    fileprivate var lastProcessedBatch: TimeInterval
     
     /// Statuses queued before being passed to the view model
-    private var statusesQueue: [Status]
+    fileprivate var statusesQueue: [Status]
     
     override init() {
         self.statusesQueue = []
-        self.lastProcessedBatch = NSDate().timeIntervalSince1970 - 2
+        self.lastProcessedBatch = Date().timeIntervalSince1970 - 2
         self.streamAPI = Service.shared.streamAPI
         super.init()
     }
@@ -48,21 +48,21 @@ class FeedModel: NSObject, MVVMBinding, NSFetchedResultsControllerDelegate {
     /**
      Requests access to the system social accounts
      */
-    private func requestAccess() {
+    fileprivate func requestAccess() {
         self.streamAPI.authenticate { [weak self] success, error in
             if success {
-                self?.messagesClosure?(.AccessGranted)
+                self?.messagesClosure?(.accessGranted)
                 return
             }
             
-            self?.messagesClosure?(.ErrorReceived(error))
+            self?.messagesClosure?(.errorReceived(error))
         }
     }
     
     /**
      Terminates the fetching section if exists
      */
-    private func destroyCurrentFetchedResultsController() {
+    fileprivate func destroyCurrentFetchedResultsController() {
         self.fetchedResultsController?.delegate = nil
         self.fetchedResultsController = nil
     }
@@ -70,13 +70,13 @@ class FeedModel: NSObject, MVVMBinding, NSFetchedResultsControllerDelegate {
     /**
      Gets the statuses for the given keywords
      */
-    private func getStatuses(withKeywords keywords: [String]) {
+    fileprivate func getStatuses(withKeywords keywords: [String]) {
         let controller = self.streamAPI.statuses(forKeywords: keywords) { [weak self] success, error in
             if success {
                 return
             }
             
-            self?.messagesClosure?(.ErrorReceived(error))
+            self?.messagesClosure?(.errorReceived(error))
         }
         
         // If the stream is going to be open a fetched results controller is
@@ -90,33 +90,33 @@ class FeedModel: NSObject, MVVMBinding, NSFetchedResultsControllerDelegate {
      Controls how frequently we feed the view model with new results
      */
     func throttle() {
-        let now = NSDate().timeIntervalSince1970
+        let now = Date().timeIntervalSince1970
         if now - self.lastProcessedBatch > FeedModel.updateInterval && self.fetchedResultsController != nil {
             // Send the newest five items, flush the queue and notify the view model
             let slice = Array(self.statusesQueue.suffix(FeedModel.batchLimit))
-            self.messagesClosure?(.BatchFetched(slice))
+            self.messagesClosure?(.batchFetched(slice))
             self.statusesQueue.removeAll()
             self.lastProcessedBatch = now
             return
         }
         
         // Try again after the interval defined by `updateInterval`
-        let interval = dispatch_time(DISPATCH_TIME_NOW, Int64(FeedModel.updateInterval * Double(NSEC_PER_SEC)))
-        dispatch_after(interval, dispatch_get_main_queue()) {
+        let interval = DispatchTime.now() + Double(Int64(FeedModel.updateInterval * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: interval) {
             self.throttle()
         }
     }
     
     // MARK: - NSFetchedResultsControllerDelegate methods
     
-    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
-        guard let indexPath = newIndexPath where type == .Insert && controller.delegate != nil else {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        guard let indexPath = newIndexPath, type == .insert && controller.delegate != nil else {
             return
         }
         
         // Takes items inserted and passes them to view model after the given 
         // throttle
-        if let status = controller.objectAtIndexPath(indexPath) as? Status where status.text != nil {
+        if let status = controller.object(at: indexPath) as? Status, status.text != nil {
             self.statusesQueue.append(status)
             self.throttle()
         }
@@ -130,21 +130,21 @@ class FeedModel: NSObject, MVVMBinding, NSFetchedResultsControllerDelegate {
 extension FeedModel {
     
     enum Signal {
-        case RequestAccountAccess
-        case GetStatuses([String])
+        case requestAccountAccess
+        case getStatuses([String])
     }
     
     enum Message {
-        case AccessGranted
-        case ErrorReceived(NSError?)
-        case BatchFetched([Status])
+        case accessGranted
+        case errorReceived(Error?)
+        case batchFetched([Status])
     }
     
-    func didReceive(signal signal: Signal) {
+    func didReceive(signal: Signal) {
         switch signal {
-        case .RequestAccountAccess:
+        case .requestAccountAccess:
             self.requestAccess()
-        case let .GetStatuses(keywords):
+        case let .getStatuses(keywords):
             self.destroyCurrentFetchedResultsController()
             self.getStatuses(withKeywords: keywords)
         }

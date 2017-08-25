@@ -12,20 +12,20 @@ import Foundation
 class ResponseDeserializer {
     
     /// String used by the stream API to delimit messages and lengths
-    private static let delimiter = "\r\n"
+    fileprivate static let delimiter = "\r\n"
     
     /// Database utils
-    private weak var dataManager: DataManager?
+    fileprivate weak var dataManager: DataManager?
     
     /// Endpoint the deserializer applies to. Ignored for now as there is only
     /// one endpoint available
-    private let endpoint: StreamEndpoint
+    fileprivate let endpoint: StreamEndpoint
     
     /// Part of the message received so far
-    private var message = ""
+    fileprivate var message = ""
     
     /// Length of the message that it's being received
-    private var length: Int?
+    fileprivate var length: Int?
     
     init(dataManager: DataManager, endpoint: StreamEndpoint) {
         self.dataManager = dataManager
@@ -38,12 +38,12 @@ class ResponseDeserializer {
      Process the streamed data, first splitting it by chunks delimited with the
      string defined above
      */
-    func process(data data: NSData) {
-        guard let string = String(data: data, encoding: NSUTF8StringEncoding) else {
+    func process(data: Data) {
+        guard let string = String(data: data, encoding: String.Encoding.utf8) else {
             return
         }
         
-        let chunks = string.componentsSeparatedByString(ResponseDeserializer.delimiter)
+        let chunks = string.components(separatedBy: ResponseDeserializer.delimiter)
         if chunks.count > 0 {
             self.process(chunks: chunks)
         }
@@ -54,7 +54,7 @@ class ResponseDeserializer {
     /**
      Processes the different chunks identifying lengths or message bodies
      */
-    private func process(chunks chunks: [String]) {
+    fileprivate func process(chunks: [String]) {
         // Before leaving the scope if there are more chunks process them
         defer {
             if chunks.count > 1 {
@@ -62,20 +62,20 @@ class ResponseDeserializer {
             }
         }
         
-        guard let chunk = chunks.first, length = self.length else {
+        guard let chunk = chunks.first, let length = self.length else {
             // If there is no length or current message then this must be a
             // length chunk
-            if let chunk = chunks.first, length = Int(chunk) {
-                self.length = length - ResponseDeserializer.delimiter.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
+            if let chunk = chunks.first, let length = Int(chunk) {
+                self.length = length - ResponseDeserializer.delimiter.lengthOfBytes(using: String.Encoding.utf8)
             }
             return
         }
         
         // If the lengths match the map the message into database objects
-        let message = self.message.stringByAppendingString(chunk)
-        let lengthSoFar = message.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
+        let message = self.message + chunk
+        let lengthSoFar = message.lengthOfBytes(using: String.Encoding.utf8)
         if lengthSoFar == length {
-            if let data = message.dataUsingEncoding(NSUTF8StringEncoding) {
+            if let data = message.data(using: String.Encoding.utf8) {
                 self.parse(data: data)
             }
             self.message = ""
@@ -97,14 +97,14 @@ class ResponseDeserializer {
     /**
      Convert the data into a dictionary and eventually database objects
      */
-    private func parse(data data: NSData) {
+    fileprivate func parse(data: Data) {
         guard let dataManager = self.dataManager else {
             return
         }
         
         do {
-            if let dictionary = try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [NSObject: AnyObject] {
-                let status = Status.entity(withDictionary: dictionary, objectContext: dataManager.mappingObjectContext)
+            if let dictionary = try JSONSerialization.jsonObject(with: data, options: []) as? [AnyHashable: Any] {
+                let _ = Status.entity(withDictionary: dictionary, objectContext: dataManager.mappingObjectContext)
                 dataManager.save() { error in
                     if let error = error {
                         debugPrint(error.localizedDescription)
@@ -112,7 +112,7 @@ class ResponseDeserializer {
                 }
             }
         }
-        catch let error as NSError {
+        catch _ {
             debugPrint("Unable to convert NSData into Dictionary")
         }
     }

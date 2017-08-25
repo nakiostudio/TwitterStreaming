@@ -13,21 +13,21 @@ import Service
 class FeedViewModel: NSObject, MVVMBinding, UICollectionViewDataSource, UICollectionViewDelegate {
     
     /// Max number of items visible on screen
-    private static let batchLimit: Int = 20
+    fileprivate static let batchLimit: Int = 20
     
     /// Closure used to notify results or messages to the view
-    var messagesClosure: (Message -> Void)?
+    var messagesClosure: ((Message) -> Void)?
     
-    private(set) lazy var model: FeedModel = {
+    fileprivate(set) lazy var model: FeedModel = {
         let model = FeedModel()
         model.subscribe(withClosure: self.didReceiveModelMessageClosure())
         return model
     }()
     
-    private(set) weak var collectionView: UICollectionView?
+    fileprivate(set) weak var collectionView: UICollectionView?
     
     /// Statuses or tweeks currently on screen
-    private(set) var statuses: [Status]
+    fileprivate(set) var statuses: [Status]
     
     init(collectionView: UICollectionView) {
         self.statuses = []
@@ -41,15 +41,15 @@ class FeedViewModel: NSObject, MVVMBinding, UICollectionViewDataSource, UICollec
     
     // MARK: - UICollectionViewDataSource methods
     
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.statuses.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.news_dequeueCell(withClass: StatusCell.self, forIndexPath: indexPath)
         let status = self.statuses[indexPath.item]
         cell.configure(withStatus: status)
@@ -58,27 +58,27 @@ class FeedViewModel: NSObject, MVVMBinding, UICollectionViewDataSource, UICollec
     
     // MARK: UICollectionViewDelegateFlowLayout methods
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         let status = self.statuses[indexPath.item]
-        let width = CGRectGetWidth(collectionView.bounds)
+        let width = collectionView.bounds.width
         let height = StatusCell.height(withStatus: status, width: width)
         return CGSize(width: width, height: height)
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSizeZero
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize.zero
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
         return 0.0
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
         return 0.0
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
-        return UIEdgeInsetsZero
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets.zero
     }
     
     // MARK: Private methods
@@ -87,33 +87,33 @@ class FeedViewModel: NSObject, MVVMBinding, UICollectionViewDataSource, UICollec
      This method takes the batch passed from the model and performs the insertions
      and deletions required in order to never show more than 5 items on screen
      */
-    private func process(batch batch: [Status]) {
+    fileprivate func process(batch: [Status]) {
         let statusesCount = self.statuses.count
         
         // Check index paths of items to delete
         var toDelete = FeedViewModel.batchLimit - statusesCount - batch.count
         toDelete = toDelete >= 0 ? 0 : (toDelete * -1)
-        var indexPathsToDelete: [NSIndexPath] = []
+        var indexPathsToDelete: [IndexPath] = []
         for i in 0..<toDelete {
-            indexPathsToDelete.append(NSIndexPath(forItem: statusesCount-i-1, inSection: 0))
+            indexPathsToDelete.append(IndexPath(item: statusesCount-i-1, section: 0))
             self.statuses.removeLast()
         }
         
         // Check index paths of items to insert
-        var indexPathsToInsert: [NSIndexPath] = []
+        var indexPathsToInsert: [IndexPath] = []
         for i in 0..<batch.count {
-            indexPathsToInsert.append(NSIndexPath(forItem: i, inSection: 0))
+            indexPathsToInsert.append(IndexPath(item: i, section: 0))
         }
         
         // Perform updates
         self.collectionView?.performBatchUpdates({
-            self.collectionView?.deleteItemsAtIndexPaths(indexPathsToDelete)
+            self.collectionView?.deleteItems(at: indexPathsToDelete)
         }, completion: { _ in
             var mutableBatch = batch
-            mutableBatch.appendContentsOf(self.statuses)
+            mutableBatch.append(contentsOf: self.statuses)
             self.statuses = mutableBatch
             self.collectionView?.performBatchUpdates({ 
-                self.collectionView?.insertItemsAtIndexPaths(indexPathsToInsert)
+                self.collectionView?.insertItems(at: indexPathsToInsert)
             }, completion: nil)
         })
     }
@@ -121,21 +121,21 @@ class FeedViewModel: NSObject, MVVMBinding, UICollectionViewDataSource, UICollec
     /**
      Removes all the items in the `UICollectionView`
      */
-    private func clearStatuses() {
+    fileprivate func clearStatuses() {
         let statusesCount = self.statuses.count
         
         // Check index paths of items to delete
         var toDelete = -statusesCount
         toDelete = toDelete >= 0 ? 0 : (toDelete * -1)
-        var indexPathsToDelete: [NSIndexPath] = []
+        var indexPathsToDelete: [IndexPath] = []
         for i in 0..<toDelete {
-            indexPathsToDelete.append(NSIndexPath(forItem: statusesCount-i-1, inSection: 0))
+            indexPathsToDelete.append(IndexPath(item: statusesCount-i-1, section: 0))
             self.statuses.removeLast()
         }
         
         // Perform updates
         self.collectionView?.performBatchUpdates({
-            self.collectionView?.deleteItemsAtIndexPaths(indexPathsToDelete)
+            self.collectionView?.deleteItems(at: indexPathsToDelete)
         }, completion: nil)
     }
     
@@ -146,8 +146,8 @@ class FeedViewModel: NSObject, MVVMBinding, UICollectionViewDataSource, UICollec
  */
 extension FeedViewModel: UITextFieldDelegate {
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        guard let text = textField.text where text.characters.count > 0 else {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        guard let text = textField.text, text.characters.count > 0 else {
             return false
         }
         
@@ -155,8 +155,8 @@ extension FeedViewModel: UITextFieldDelegate {
         textField.resignFirstResponder()
         
         // Split the query into keywords and perform search
-        let statuses = text.componentsSeparatedByString(" ")
-        self.model.send(signal: .GetStatuses(statuses))
+        let statuses = text.components(separatedBy: " ")
+        self.model.send(signal: .getStatuses(statuses))
         
         // Clear collection
         self.clearStatuses()
@@ -172,32 +172,32 @@ extension FeedViewModel: UITextFieldDelegate {
 extension FeedViewModel {
     
     enum Signal {
-        case RequestAccountAccess
+        case requestAccountAccess
     }
     
     enum Message {
-        case AccessGranted
+        case accessGranted
     }
     
-    func didReceive(signal signal: Signal) {
+    func didReceive(signal: Signal) {
         switch signal {
-        case .RequestAccountAccess:
-            self.model.send(signal: .RequestAccountAccess)
+        case .requestAccountAccess:
+            self.model.send(signal: .requestAccountAccess)
         }
     }
     
     /**
      Messages received from model
      */
-    func didReceiveModelMessageClosure() -> (FeedModel.Message -> Void) {
+    func didReceiveModelMessageClosure() -> ((FeedModel.Message) -> Void) {
         return { [weak self] message in
             switch message {
-            case .AccessGranted:
-                self?.messagesClosure?(.AccessGranted)
-            case .ErrorReceived(_):
+            case .accessGranted:
+                self?.messagesClosure?(.accessGranted)
+            case .errorReceived(_):
                 // TODO: Handle this
                 break
-            case let .BatchFetched(batch):
+            case let .batchFetched(batch):
                 self?.process(batch: batch)
             }
         }

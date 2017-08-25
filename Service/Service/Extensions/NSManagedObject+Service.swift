@@ -18,8 +18,8 @@ extension NSManagedObject {
      - returns The created `NSManagedObject` if possible
      */
     static func service_entity<T where T: NSManagedObject>(ofClass class: T.Type, objectContext: NSManagedObjectContext) -> T? {
-        let name = NSStringFromClass(T).componentsSeparatedByString(".").last ?? ""
-        return NSEntityDescription.insertNewObjectForEntityForName(name, inManagedObjectContext: objectContext) as? T
+        let name = NSStringFromClass(T).components(separatedBy: ".").last ?? ""
+        return NSEntityDescription.insertNewObject(forEntityName: name, into: objectContext) as? T
     }
     
 }

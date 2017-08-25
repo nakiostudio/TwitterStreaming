@@ -12,47 +12,47 @@ import CoreData
 public class DataManager {
    
     /// Alias of the closure called when a save operation finishes
-    public typealias SaveCompletionClosure = NSError? -> Void
+    public typealias SaveCompletionClosure = (NSError?) -> Void
     
     /// Location of the `momd` file
-    private static let modelURL: NSURL = NSBundle(forClass: DataManager.self).URLForResource("NewsDataModel", withExtension: "momd")!
+    fileprivate static let modelURL: URL = Bundle(for: DataManager.self).url(forResource: "NewsDataModel", withExtension: "momd")!
     
     /// Location of the `sqlite` file
-    private static let sqliteURL: NSURL = {
-        let directories = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
+    fileprivate static let sqliteURL: URL = {
+        let directories = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let documentsDirectory = directories[directories.count - 1]
-        return documentsDirectory.URLByAppendingPathComponent("NewsDataModel.sqlite")!
+        return documentsDirectory.appendingPathComponent("NewsDataModel.sqlite")
     }()
     
     /// Object model
-    private(set) lazy var managedObjectModel: NSManagedObjectModel = {
-        return NSManagedObjectModel(contentsOfURL: DataManager.modelURL)!
+    fileprivate(set) lazy var managedObjectModel: NSManagedObjectModel = {
+        return NSManagedObjectModel(contentsOf: DataManager.modelURL)!
     }()
     
     /// Store Coordinator
-    private lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
+    fileprivate lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
         let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
         return coordinator
     }()
     
     /// Root object context connecting main queue context and persistent store
-    private lazy var rootObjectContext: NSManagedObjectContext = {
-        let managedObjectContext = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
+    fileprivate lazy var rootObjectContext: NSManagedObjectContext = {
+        let managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator
         return managedObjectContext
     }()
     
     /// Main object context, the designated one to be used from the main queue
-    public private(set) lazy var mainObjectContext: NSManagedObjectContext = {
-        let managedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
-        managedObjectContext.parentContext = self.rootObjectContext
+    public fileprivate(set) lazy var mainObjectContext: NSManagedObjectContext = {
+        let managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+        managedObjectContext.parent = self.rootObjectContext
         return managedObjectContext
     }()
     
     /// Object context to be used from private queue where the mapping is done
-    private(set) lazy var mappingObjectContext: NSManagedObjectContext = {
-        let managedObjectContext = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
-        managedObjectContext.parentContext = self.mainObjectContext
+    fileprivate(set) lazy var mappingObjectContext: NSManagedObjectContext = {
+        let managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        managedObjectContext.parent = self.mainObjectContext
         return managedObjectContext
     }()
 
@@ -68,15 +68,15 @@ public class DataManager {
         var performSaveInMain = false
         var performSaveInMapping = false
         
-        self.rootObjectContext.performBlockAndWait { 
+        self.rootObjectContext.performAndWait { 
             performSaveInRoot = self.rootObjectContext.hasChanges
         }
         
-        self.mainObjectContext.performBlockAndWait {
+        self.mainObjectContext.performAndWait {
             performSaveInMain = self.mainObjectContext.hasChanges
         }
         
-        self.mappingObjectContext.performBlockAndWait {
+        self.mappingObjectContext.performAndWait {
             performSaveInMapping = self.mappingObjectContext.hasChanges
         }
         
@@ -104,14 +104,14 @@ public class DataManager {
         }
         
         let coordinator = self.persistentStoreCoordinator
-        let options: [NSObject: AnyObject] = [
+        let options: [AnyHashable: Any] = [
             NSSQLitePragmasOption: ["journal_mode": "WAL"],
             NSMigratePersistentStoresAutomaticallyOption: true,
             NSInferMappingModelAutomaticallyOption: true
         ]
         
         do {
-            try coordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: DataManager.sqliteURL, options: options)
+            try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: DataManager.sqliteURL, options: options)
         }
         catch {
             debugPrint("Unable to add persistent store")
@@ -125,21 +125,21 @@ public class DataManager {
     /**
      An easy way to propagate the save operation from the current context to top
      */
-    private func saveBottomUp(fromContext context: NSManagedObjectContext, completion: SaveCompletionClosure?) {
+    fileprivate func saveBottomUp(fromContext context: NSManagedObjectContext, completion: SaveCompletionClosure?) {
         do {
             try context.save()
-            if let parentContext = context.parentContext {
+            if let parentContext = context.parent {
                 self.saveBottomUp(fromContext: parentContext, completion: completion)
                 return
             }
             
             // Reached root
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 completion?(nil)
             }
         }
         catch let error as NSError {
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 completion?(error)
             }
             return

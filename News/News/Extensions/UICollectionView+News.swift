@@ -10,15 +10,15 @@ import UIKit
  */
 extension UICollectionView {
     
-    func news_registerNib<T where T: UICollectionViewCell>(fromClass class: T.Type) {
-        let name = NSStringFromClass(T).componentsSeparatedByString(".").last ?? ""
+    func news_registerNib<T>(fromClass class: T.Type) where T: UICollectionViewCell {
+        let name = NSStringFromClass(T.self).components(separatedBy: ".").last ?? ""
         let nib = UINib(nibName: name, bundle: nil)
-        self.registerNib(nib, forCellWithReuseIdentifier: name)
+        self.register(nib, forCellWithReuseIdentifier: name)
     }
     
-    func news_dequeueCell<T where T: UICollectionViewCell>(withClass class: T.Type, forIndexPath indexPath: NSIndexPath) -> T {
-        let name = NSStringFromClass(T).componentsSeparatedByString(".").last ?? ""
-        return self.dequeueReusableCellWithReuseIdentifier(name, forIndexPath: indexPath) as! T
+    func news_dequeueCell<T>(withClass class: T.Type, forIndexPath indexPath: IndexPath) -> T where T: UICollectionViewCell {
+        let name = NSStringFromClass(T.self).components(separatedBy: ".").last ?? ""
+        return self.dequeueReusableCell(withReuseIdentifier: name, for: indexPath) as! T
     }
     
 }

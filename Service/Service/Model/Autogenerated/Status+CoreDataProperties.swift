@@ -15,7 +15,7 @@ import CoreData
 public extension Status {
 
     @NSManaged var timestamp: NSNumber?
-    @NSManaged var insertDate: NSDate?
+    @NSManaged var insertDate: Date?
     @NSManaged var identifier: String?
     @NSManaged var text: String?
     @NSManaged var favorited: NSNumber?

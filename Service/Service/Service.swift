@@ -11,10 +11,10 @@ import Foundation
 public class Service {
     
     /// Private queue where the mapping takes place
-    private static let mappingQueue = dispatch_queue_create("com.nakiostudio.background", DISPATCH_QUEUE_SERIAL)
+    fileprivate static let mappingQueue = DispatchQueue(label: "com.nakiostudio.background", attributes: [])
     
     /// Base URL of the server the app connects with
-    public let baseURL: NSURL
+    public let baseURL: URL
     
     /// Database tools
     public let dataManager: DataManager
@@ -23,7 +23,7 @@ public class Service {
     let streamSessionManager: StreamSessionManager
     
     /// Utils that authenticate the user and creates the stream connection
-    public private(set) lazy var streamAPI: StreamAPI = {
+    public fileprivate(set) lazy var streamAPI: StreamAPI = {
         let api = StreamAPI(
             baseURL: self.baseURL,
             dataManager: self.dataManager,
@@ -32,7 +32,7 @@ public class Service {
         return api
     }()
     
-    public init(baseURL: NSURL) {
+    public init(baseURL: URL) {
         self.baseURL = baseURL
         self.streamSessionManager = StreamSessionManager(dispatchQueue: Service.mappingQueue)
         self.dataManager = DataManager()

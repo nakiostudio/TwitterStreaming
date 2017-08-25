@@ -15,7 +15,7 @@ extension Hashtag {
      - parameter objectContext: Context where the entity will be created on
      - returns The entity if it has been created
      */
-    static func entity(withDictionary dictionary: [NSObject: AnyObject], objectContext: NSManagedObjectContext) -> Hashtag? {
+    static func entity(withDictionary dictionary: [AnyHashable: Any], objectContext: NSManagedObjectContext) -> Hashtag? {
         guard let entity = NSManagedObject.service_entity(ofClass: Hashtag.self, objectContext: objectContext) else {
             return nil
         }

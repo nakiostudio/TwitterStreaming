@@ -12,12 +12,12 @@ import Social
 enum StreamEndpoint {
     
     /// Stream of statuses filtered by keyword
-    case Statuses
+    case statuses
     
     /// Path of the endpoint
     var path: String {
         switch self {
-        case .Statuses:
+        case .statuses:
             return "statuses/filter.json"
         }
     }
@@ -25,7 +25,7 @@ enum StreamEndpoint {
     /// Method of the endpoint
     var method: SLRequestMethod {
         switch self {
-        case .Statuses:
+        case .statuses:
             return .POST
         }
     }

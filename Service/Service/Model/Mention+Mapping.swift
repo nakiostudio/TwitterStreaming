@@ -15,7 +15,7 @@ extension Mention {
      - parameter objectContext: Context where the entity will be created on
      - returns The entity if it has been created
      */
-    static func entity(withDictionary dictionary: [NSObject: AnyObject], objectContext: NSManagedObjectContext) -> Mention? {
+    static func entity(withDictionary dictionary: [AnyHashable: Any], objectContext: NSManagedObjectContext) -> Mention? {
         guard let entity = NSManagedObject.service_entity(ofClass: Mention.self, objectContext: objectContext) else {
             return nil
         }

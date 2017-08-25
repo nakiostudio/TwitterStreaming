@@ -10,34 +10,34 @@ import Foundation
  connection, resolving possible auth challenges and notifying all possible
  results
  */
-class StreamSessionManager: NSObject, NSURLSessionDataDelegate {
+class StreamSessionManager: NSObject, URLSessionDataDelegate {
     
     /// Closure alias
-    typealias ResponseClosure = (NSData?, NSError?) -> Void
+    typealias ResponseClosure = (Data?, Error?) -> Void
     
     /// Queue where the session data delegate methods are going to be dispatched
-    unowned(unsafe) let dispatchQueue: dispatch_queue_t
+    unowned(unsafe) let dispatchQueue: DispatchQueue
     
     /// Session performing the data tasks created by the current helper
-    private(set) lazy var session: NSURLSession = {
-        let operationQueue = NSOperationQueue()
+    fileprivate(set) lazy var session: Foundation.URLSession = {
+        let operationQueue = OperationQueue()
         operationQueue.underlyingQueue = self.dispatchQueue
-        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
-        return NSURLSession(configuration: configuration, delegate: self, delegateQueue:operationQueue)
+        let configuration = URLSessionConfiguration.default
+        return Foundation.URLSession(configuration: configuration, delegate: self, delegateQueue:operationQueue)
     }()
     
     /// Data task running
-    private(set) var currentTask: NSURLSessionDataTask?
+    fileprivate(set) var currentTask: URLSessionDataTask?
     
     /// Closure to be called with the data/errors to notify upon server response
-    private var responseClosure: ResponseClosure?
+    fileprivate var responseClosure: ResponseClosure?
     
     /**
      Designated initializer
      - parameter dispatchQueue: Queue where the session data delegate methods are
      going to be dispatched
      */
-    init(dispatchQueue: dispatch_queue_t) {
+    init(dispatchQueue: DispatchQueue) {
         self.dispatchQueue = dispatchQueue
         super.init()
     }
@@ -51,9 +51,9 @@ class StreamSessionManager: NSObject, NSURLSessionDataDelegate {
      - parameter connectionClosedClosure: Closure called when the connection to the
      stream endpoint is closed
      */
-    func connect(withRequest request: NSURLRequest, responseClosure: ResponseClosure?) {
+    func connect(withRequest request: URLRequest, responseClosure: ResponseClosure?) {
         self.responseClosure = responseClosure
-        self.currentTask = self.session.dataTaskWithRequest(request)
+        self.currentTask = self.session.dataTask(with: request)
         self.currentTask?.resume()
     }
     
@@ -71,30 +71,30 @@ class StreamSessionManager: NSObject, NSURLSessionDataDelegate {
  */
 extension StreamSessionManager {
     
-    func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveResponse response: NSURLResponse, completionHandler: (NSURLSessionResponseDisposition) -> Void) {
-        completionHandler(dataTask.state != .Canceling ? .Allow : .Cancel)
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
+        completionHandler(dataTask.state != .canceling ? .allow : .cancel)
     }
     
-    func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveData data: NSData) {
-        if dataTask.state != .Canceling {
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        if dataTask.state != .canceling {
             self.responseClosure?(data, nil)
         }
     }
     
-    func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         self.currentTask = nil
         self.responseClosure?(nil, error)
     }
     
-    func URLSession(session: NSURLSession, didBecomeInvalidWithError error: NSError?) {
+    func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
         // No need to handle this as URLSession(session: task: didCompleteWithError) 
         // will be triggered
     }
     
-    func URLSession(session: NSURLSession, task: NSURLSessionTask, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
-        let host = task.originalRequest?.URL?.host
-        if let serverTrust = challenge.protectionSpace.serverTrust where challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust && challenge.protectionSpace.host == host {
-            completionHandler(.UseCredential, NSURLCredential(forTrust: serverTrust))
+    func urlSession(_ session: URLSession, task: URLSessionTask, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        let host = task.originalRequest?.url?.host
+        if let serverTrust = challenge.protectionSpace.serverTrust, challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust && challenge.protectionSpace.host == host {
+            completionHandler(.useCredential, URLCredential(trust: serverTrust))
         }
     }
     

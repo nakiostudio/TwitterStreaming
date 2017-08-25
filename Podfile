@@ -9,7 +9,7 @@ project 'News/News.xcodeproj'
 
 target 'News' do
     project 'News/News.xcodeproj'
-    pod 'Kingfisher', '2.6.0'
-    pod 'EasyPeasy', '1.3.1'
+    pod 'Kingfisher'
+    pod 'EasyPeasy'
 end
 

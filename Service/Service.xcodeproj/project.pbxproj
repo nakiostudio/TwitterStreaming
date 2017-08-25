@@ -284,7 +284,7 @@
 				TargetAttributes = {
 					07A12DAB1DB255B50041E744 = {
 						CreatedOnToolsVersion = 7.3.1;
-						LastSwiftMigration = 0810;
+						LastSwiftMigration = 0830;
 					};
 					07A12DB51DB255B50041E744 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -485,7 +485,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -504,7 +504,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.nakiostudio.Service;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

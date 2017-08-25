@@ -8,15 +8,18 @@ import Foundation
 /**
  Helper methods
  */
-extension CollectionType {
+extension Collection {
     
     /**     
      A safer way of accessing items within an array
      - parameter index: Index of the item to be retrieved
      - returns The item at the index given if it exists
      */
-    subscript (safe index: Index) -> Generator.Element? {
-        return indices.contains(index) ? self[index] : nil
+    subscript (safe index: Index) -> Iterator.Element? {
+        if self.endIndex > index && self.startIndex <= index {
+            return self[index]
+        }
+        return nil
     }
     
 }

@@ -8,11 +8,11 @@ import Foundation
 /**
  Helper methods
  */
-extension NSDateFormatter {
+extension DateFormatter {
     
-    @nonobjc static let news_statusDataFormatter: NSDateFormatter = {
-        let formatter = NSDateFormatter()
-        formatter.dateStyle = .ShortStyle
+    @nonobjc static let news_statusDataFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
         return formatter
     }()
     
