@@ -19,7 +19,7 @@
                 <li>Sign in with a valid Twiiter account in the iOS Simulator.</li>
             </ul>
             <h3>Author</h3>
-            Carlos Vidal - <a href="https://twitter.com/carlostify">@carlostify</a><br>
+            Carlos Vidal - <a href="https://twitter.com/nakiostudio">@nakiostudio</a><br>
             <h3>License</h3>
             This project is available under the MIT license. See the LICENSE file for more info.
             <br>
